@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:fresco="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    >
+    
+	<com.ximalaya.downloader.view.XMImageView
+	    android:id="@+id/sound_icon"
+	    android:layout_width="40dp"
+	    android:layout_height="40dp"
+		fresco:placeholderImage="@drawable/sound"
+	    android:scaleType="fitCenter"
+	    android:layout_alignParentLeft="true"
+	    />
+	
+	<TextView 
+	    android:id="@+id/sound_download"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:drawableLeft="@drawable/download"
+	    android:layout_alignParentRight="true"
+	    />
+	
+	<TextView 
+	    android:id="@+id/sound_title"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:maxLines="2"
+	    tools:text="中国好声音"
+	    android:layout_alignParentTop="true"
+	    android:layout_toRightOf="@+id/sound_icon"
+	    android:layout_toLeftOf="@+id/sound_download"
+	    android:layout_marginLeft="10dp"
+	    android:layout_marginRight="10dp"
+	    />
+	
+	<ProgressBar 
+	    android:id="@+id/download_progress"
+	    style="?android:attr/progressBarStyleHorizontal"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    android:layout_toRightOf="@+id/sound_icon"
+	    android:layout_toLeftOf="@+id/sound_download"
+	    android:layout_below="@+id/sound_title"
+	    android:layout_marginLeft="10dp"
+	    android:layout_marginRight="10dp"
+	    android:visibility="gone"
+	    />
+	
+	
+
+</RelativeLayout>

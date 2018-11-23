@@ -2,19 +2,26 @@
 
 buildscript {
     repositories {
+        mavenLocal()
         jcenter()
+        maven {
+            url "http://mvnrepo.alibaba-inc.com/mvn/repository"
+        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.android.tools.build:gradle:2.3.2'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
     }
 }
 
 allprojects {
     repositories {
         mavenLocal()
+        jcenter()
         maven {
             url "http://mvnrepo.alibaba-inc.com/mvn/repository"
         }
@@ -23,4 +30,9 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.3'
+    distributionUrl = 'http://mirrors.taobao.net/mirror/gradle/gradle-3.3-bin.zip'
 }

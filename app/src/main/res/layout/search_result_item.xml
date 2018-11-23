@@ -11,7 +11,7 @@
     android:paddingBottom="10dp"
     >
     
-	<com.ximalaya.downloader.view.XMImageView
+	<com.himer.android.view.XMImageView
 	    android:id="@+id/sound_icon"
 	    android:layout_width="40dp"
 	    android:layout_height="40dp"

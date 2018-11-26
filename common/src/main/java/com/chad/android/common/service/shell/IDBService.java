@@ -2,6 +2,8 @@ package com.chad.android.common.service.shell;
 
 import com.chad.android.common.service.IService;
 
+import java.util.List;
+
 /**
  * No comment for you. yeah, come on, bite me~
  * <p>
@@ -9,11 +11,22 @@ import com.chad.android.common.service.IService;
  */
 public interface IDBService extends IService {
 
-    long insert(Object obj);
+    long insert(Object object);
 
-    boolean delete(Object obj);
+    void insertAll(List<? extends Object> list);
 
-    boolean update(Object obj);
+    boolean delete(Object object);
 
-    <T> T query(Object obj);
+    boolean update(Object object);
+
+    boolean deleteById(Class<? extends Object> classType, long id);
+
+    boolean deleteAll(Class<? extends Object> classType);
+
+    <T> T queryById(Class<T> classType, long id);
+
+    <T> List<T> query(Class<T> classType, String where, String... selectionArg);
+
+    <T> List<T> queryAll(Class<T> classType);
+
 }

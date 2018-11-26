@@ -1,5 +1,6 @@
 package com.chad.android.common.service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -9,25 +10,22 @@ import java.util.Map;
  */
 public class ServiceManager {
 
-    private static ServiceManager sInstance;
-
-    private Map<Class, IService> sServiceMap;
+    private static Map<Class, IService> sServiceMap;
 
     private ServiceManager() {
 
     }
 
     public static void init(ServiceConfig config) {
-
+        sServiceMap = new HashMap<>();
     }
 
-    public static ServiceManager getInstance() {
-        return sInstance;
+    public static void setService(Class clazz, IService service) {
+        sServiceMap.put(clazz, service);
     }
 
-    public <T extends IService> T getService(Class<T> clazz) {
-        T service = null;
-
-        return service;
+    public static <T extends IService> T getService(Class<T> clazz) {
+        IService service = sServiceMap.get(clazz);
+        return (T) service;
     }
 }

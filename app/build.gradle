@@ -10,7 +10,6 @@ greendao {
 android {
     compileSdkVersion Integer.parseInt(System.properties['_compileSdkVersion'])
     buildToolsVersion System.properties['_buildToolsVersion']
-    useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "com.himer.android"
         minSdkVersion Integer.parseInt(System.properties['_minSdkVersion'])
@@ -30,7 +29,5 @@ dependencies {
 
     compile 'com.alibaba:fastjson:1.2.9'
 
-    compile(project(':app_adapter'))
-    compile(project(':database'))
     compile(project(':common'))
 }

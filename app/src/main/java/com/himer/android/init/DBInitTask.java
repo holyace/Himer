@@ -6,4 +6,8 @@ package com.himer.android.init;
  * Created by chad on 2018/11/16.
  */
 public class DBInitTask extends BaseInitTask {
+    @Override
+    void execute() {
+
+    }
 }

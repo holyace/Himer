@@ -12,9 +12,8 @@ public abstract class SafeJob extends Job {
         super.run();
         try {
             safeRun();
-        }
-        catch (Exception e) {
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

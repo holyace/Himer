@@ -11,6 +11,6 @@ public class ImageServiceInit extends BaseInitTask {
 
     @Override
     void execute() {
-        Fresco.initialize(Global.getApplication());
+//        Fresco.initialize(Global.getApplication());
     }
 }

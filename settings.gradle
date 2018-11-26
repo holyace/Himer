@@ -1,5 +1,4 @@
 include ':app'
-include ':app_adapter'
+include ':downloader'
 include ':common_ui'
-include ':database'
 include ':common'

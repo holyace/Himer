@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="sound"
+            type="com.himer.android.modle.SearchSound" />
+        
+        <variable
+            name="event"
+            type="com.himer.android.fragment.BindingAdapter"/>
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:fresco="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp">
+
+        <com.chad.android.common.widget.HMImageView
+            android:id="@+id/sound_icon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
+            android:scaleType="fitCenter"
+            fresco:placeholderImage="@drawable/sound"
+            android:src="@{sound.cover_path}"
+            />
+
+        <TextView
+            android:id="@+id/sound_download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:drawableLeft="@drawable/download"
+            android:tag="@{sound}"
+            android:onClick="@{event.onClick}"
+            />
+
+
+        <TextView
+            android:id="@+id/sound_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/sound_download"
+            android:layout_toRightOf="@+id/sound_icon"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            tools:text="中国好声音"
+            android:text="@{sound.title}"
+            />
+
+        <LinearLayout
+            android:id="@+id/album_info_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/sound_title"
+            android:layout_alignRight="@+id/sound_title"
+            android:layout_below="@+id/sound_title"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/album"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#999999"
+                android:textSize="12sp"
+                tools:text="专辑：好声音"
+                android:text="@{sound.album_title}"
+                />
+
+            <TextView
+                android:id="@+id/audio_tags"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:includeFontPadding="false"
+                android:background="#FFFFCC"
+                android:textColor="#999999"
+                android:textSize="12sp"
+                android:visibility="visible"
+                tools:text="#热歌榜"
+                android:maxLines="1"
+                android:text="@{sound.tags}"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/owner_info_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/sound_title"
+            android:layout_alignRight="@+id/sound_title"
+            android:layout_below="@+id/album_info_bar"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.chad.android.common.widget.HMImageView
+                android:id="@+id/user_logo"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="5dp"
+                fresco:roundBottomLeft="true"
+                fresco:roundBottomRight="true"
+                fresco:roundTopLeft="true"
+                fresco:roundTopRight="true"
+                fresco:roundedCornerRadius="45dp"
+                tools:src="@drawable/sound"
+                android:src="@{sound.smallLogo}"
+                />
+
+            <TextView
+                android:id="@+id/user_nick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#999999"
+                android:textSize="12sp"
+                tools:text="哈利波特"
+                android:text="@{sound.nickname}"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/play_count"
+                android:drawablePadding="3dp"
+                android:layout_marginLeft="5dp"
+                tools:text="1233123"
+                android:textSize="11sp"
+                android:textColor="#999999"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="@{String.valueOf(sound.count_play)}"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/like_count"
+                android:drawablePadding="3dp"
+                android:layout_marginLeft="5dp"
+                tools:text="1233123"
+                android:textSize="11sp"
+                android:textColor="#999999"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="@{String.valueOf(sound.count_like)}"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

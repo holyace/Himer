@@ -3,11 +3,12 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:paddingTop="10dp"
-    android:paddingBottom="10dp">
+    android:paddingBottom="10dp"
+    >
 
     <com.chad.android.common.widget.HMImageView
         android:id="@+id/sound_icon"
@@ -15,7 +16,9 @@
         android:layout_height="40dp"
         fresco:placeholderImage="@drawable/sound"
         android:scaleType="fitCenter"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentLeft="true"
+        tools:src="@drawable/sound"
+        />
 
     <TextView
         android:id="@+id/sound_download"
@@ -47,7 +50,9 @@
         android:layout_below="@+id/sound_title"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:visibility="visible"
+        />
 
 
 </RelativeLayout>

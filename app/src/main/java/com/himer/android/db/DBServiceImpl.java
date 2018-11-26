@@ -76,7 +76,12 @@ public class DBServiceImpl implements IDBService {
             HLog.e(TAG, "insert get dao fail", object.toString());
             return -1;
         }
-        return dao.insert(object);
+        try {
+            return dao.insert(object);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     @Override

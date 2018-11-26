@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">嗨马</string>
+    <string name="tag_prefix">#</string>
+    <string name="album_name">专辑:</string>
 </resources>

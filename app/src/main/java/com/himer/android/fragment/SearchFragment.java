@@ -16,6 +16,7 @@ package com.himer.android.fragment;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.databinding.adapters.TextViewBindingAdapter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,7 +31,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,16 +38,16 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.chad.android.common.widget.HMImageView;
-import com.loopj.android.http.RequestParams;
 import com.himer.android.AppConstant;
-import com.himer.android.modle.SoundInfo;
-import com.himer.android.net.HttpCallback;
-import com.himer.android.util.HttpUtil;
+import com.himer.android.BR;
 import com.himer.android.MainTabActivity;
 import com.himer.android.R;
-import com.himer.android.modle.SearchSound;
 import com.himer.android.download.DownloadManager;
+import com.himer.android.modle.SearchSound;
+import com.himer.android.net.HttpCallback;
+import com.himer.android.util.HttpUtil;
 import com.himer.android.view.PullToRefreshListView;
+import com.loopj.android.http.RequestParams;
 
 import java.util.ArrayList;
 
@@ -77,7 +77,8 @@ public class SearchFragment extends Fragment {
     private int mPageSize = 15;
     private ArrayList<SearchSound> mSearchResult =
             new ArrayList<SearchSound>();
-    private SearchAdapter mAdapter;
+//    private SearchAdapter mAdapter;
+    private BindingListAdapter<SearchSound> mBindingListAdapter;
     private boolean isFirst = true;
 
     static {
@@ -97,8 +98,12 @@ public class SearchFragment extends Fragment {
         mButton = (Button) mContent.findViewById(R.id.search_btn);
         mListView = (PullToRefreshListView) mContent.
                 findViewById(R.id.search_result);
-        mAdapter = new SearchAdapter();
-        mListView.setAdapter(mAdapter);
+//        mAdapter = new SearchAdapter();
+//        mListView.setAdapter(mAdapter);
+        mBindingListAdapter = new BindingListAdapter<>(
+                new EventHandler(), BR.event,
+                R.layout.item_sound_info, BR.sound);
+        mListView.setAdapter(mBindingListAdapter);
         mListView.setOnScrollListener(new OnScrollListener() {
 
             @Override
@@ -125,7 +130,8 @@ public class SearchFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SearchSound sound = (SearchSound) mAdapter.getItem(position);
+//                SearchSound sound = (SearchSound) mAdapter.getItem(position);
+                SearchSound sound = (SearchSound) mBindingListAdapter.getItem(position);
                 if (sound == null) {
                     return;
                 }
@@ -148,6 +154,7 @@ public class SearchFragment extends Fragment {
         try {
             String audio = sound.play_path_aac_v224;
             Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.addCategory("android.intent.category.DEFAULT");
             intent.setDataAndType(Uri.parse(audio), "audio/*");
             startActivity(intent);
         } catch (Exception e) {
@@ -228,7 +235,8 @@ public class SearchFragment extends Fragment {
                 mSearchResult.addAll(JSON.parseArray(json.
                                 getJSONObject("response").getString("docs"),
                         SearchSound.class));
-                mAdapter.notifyDataSetChanged();
+//                mAdapter.notifyDataSetChanged();
+                mBindingListAdapter.setData(mSearchResult);
             }
 
         });
@@ -249,6 +257,33 @@ public class SearchFragment extends Fragment {
 
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    private void downloadSound(SearchSound ss) {
+        if (ss == null) {
+            return;
+        }
+        Toast.makeText(mContext, "开始下载\"" + ss.title + "\"", Toast.LENGTH_SHORT).show();
+        DownloadManager.getInstance().downloadSound(ss, false);
+        if (isFirst) {
+            ((MainTabActivity) mContext)
+                    .setCurrentTab(MainTabActivity.TAB_B);
+            isFirst = false;
+        }
+    }
+
+    private class EventHandler extends BindingAdapter {
+
+        @Override
+        public void onClick(View view) {
+            super.onClick(view);
+            Object tag = view.getTag();
+            if (!(tag instanceof SearchSound)) {
+                return;
+            }
+            SearchSound ss = (SearchSound) tag;
+            downloadSound(ss);
+        }
     }
 
     class SearchAdapter extends BaseAdapter {
@@ -290,16 +325,7 @@ public class SearchFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         SearchSound ss = (SearchSound) view.getTag();
-                        if (ss == null) {
-                            return;
-                        }
-                        Toast.makeText(mContext, "开始下载\"" + ss.title + "\"", Toast.LENGTH_SHORT).show();
-                        DownloadManager.getInstance().downloadSound(ss, false);
-                        if (isFirst) {
-                            ((MainTabActivity) mContext)
-                                    .setCurrentTab(MainTabActivity.TAB_B);
-                            isFirst = false;
-                        }
+                        downloadSound(ss);
                     }
                 });
             } else {
@@ -308,6 +334,12 @@ public class SearchFragment extends Fragment {
             holder.download.setTag(sound);
             if (!TextUtils.isEmpty(sound.cover_path)) {
                 holder.icon.setImageURI(Uri.parse(sound.cover_path));
+            }
+            else if (!TextUtils.isEmpty(sound.album_cover_path)) {
+                holder.icon.setImageURI(Uri.parse(sound.album_cover_path));
+            }
+            else if (!TextUtils.isEmpty(sound.smallLogo)) {
+                holder.icon.setImageURI(Uri.parse(sound.smallLogo));
             }
             holder.title.setText(sound.title);
             return convertView;

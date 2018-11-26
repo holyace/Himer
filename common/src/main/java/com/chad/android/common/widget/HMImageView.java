@@ -1,6 +1,7 @@
 package com.chad.android.common.widget;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
@@ -25,4 +26,8 @@ public class HMImageView extends SimpleDraweeView {
         super(context, attrs, defStyleAttr);
     }
 
+    @Override
+    public void setImageBitmap(Bitmap bm) {
+        super.setImageBitmap(bm);
+    }
 }

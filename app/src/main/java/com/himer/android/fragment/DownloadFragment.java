@@ -15,7 +15,6 @@ package com.himer.android.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -31,12 +30,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.chad.android.common.concurrent.Executor;
+import com.chad.android.common.concurrent.HMExecutor;
 import com.chad.android.common.concurrent.SafeJob;
 import com.chad.android.common.service.ServiceManager;
 import com.chad.android.common.service.shell.IDBService;
 import com.himer.android.R;
-import com.himer.android.db.DBServiceImpl;
 import com.himer.android.download.DownloadManager;
 import com.himer.android.download.DownloadTask;
 import com.himer.android.download.DownloadUpdateListener;
@@ -102,8 +100,9 @@ public class DownloadFragment extends Fragment {
                     final Object tag = task.tag;
                     if (tag instanceof SearchSound) {
                         final SearchSound ss = (SearchSound) tag;
+                        ss.setDownload_path(task.getDownloadPath());
                         ss.setSaveTime(System.currentTimeMillis());
-                        Executor.runNow(new SafeJob() {
+                        HMExecutor.runNow(new SafeJob() {
                             @Override
                             public void safeRun() {
                                 IDBService db = ServiceManager.getService(IDBService.class);
@@ -199,10 +198,14 @@ public class DownloadFragment extends Fragment {
                         mDownloadManager.pauseTask(task);
                         break;
                     case DownloadTask.COMPLETED:
-                        Intent intent = new Intent();
-                        intent.setAction(Intent.ACTION_VIEW);
-                        intent.setDataAndType(mDownloadManager.getFile(task), "audio/*");
-                        mContext.startActivity(intent);
+                        try {
+                            Intent intent = new Intent();
+                            intent.setAction(Intent.ACTION_VIEW);
+                            intent.setDataAndType(mDownloadManager.getFile(task), "audio/*");
+                            mContext.startActivity(intent);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         break;
                 }
             }

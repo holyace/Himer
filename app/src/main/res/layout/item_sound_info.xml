@@ -8,7 +8,11 @@
         
         <variable
             name="event"
-            type="com.himer.android.fragment.BindingAdapter"/>
+            type="com.himer.android.databinding.BindingAdapter"/>
+
+        <variable
+            name="mode"
+            type="Integer"/>
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -31,13 +35,14 @@
             android:src="@{sound.cover_path}"
             />
 
-        <TextView
+        <ImageView
             android:id="@+id/sound_download"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="10dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:drawableLeft="@drawable/download"
+            android:src="@{mode == 1 ? @drawable/delete : @drawable/download}"
             android:tag="@{sound}"
             android:onClick="@{event.onClick}"
             />

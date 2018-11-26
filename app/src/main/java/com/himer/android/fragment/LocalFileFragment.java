@@ -14,8 +14,6 @@
 package com.himer.android.fragment;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -29,22 +27,22 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.chad.android.common.concurrent.Executor;
+import com.himer.android.BR;
+import com.chad.android.common.concurrent.HMExecutor;
 import com.chad.android.common.concurrent.SafeJob;
 import com.chad.android.common.service.ServiceManager;
 import com.chad.android.common.service.shell.IDBService;
 import com.himer.android.R;
+import com.himer.android.databinding.BindingAdapter;
+import com.himer.android.databinding.BindingListAdapter;
 import com.himer.android.download.DownloadManager;
 import com.himer.android.download.DownloadTask;
 import com.himer.android.download.DownloadUpdateListener;
 import com.himer.android.modle.SearchSound;
 import com.himer.android.util.HLog;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -56,7 +54,8 @@ public class LocalFileFragment extends Fragment {
     private Activity mContext;
     private View mContent;
     private ListView mListView;
-    private DownloadAdapter mAdapter;
+//    private DownloadAdapter mAdapter;
+    private BindingListAdapter<SearchSound> mListAdapter;
 
     private ArrayList<SearchSound> mDownlaoded =
             new ArrayList<>();
@@ -76,29 +75,71 @@ public class LocalFileFragment extends Fragment {
         mContext = getActivity();
         initUI();
         initData();
+        initListener();
+    }
+
+    private void initListener() {
+        DownloadManager.getInstance().registeDownloadUpdateListener(new DownloadUpdateListener() {
+            @Override
+            public void onNewTask(DownloadTask task) {
+
+            }
+
+            @Override
+            public void onTaskCancel(DownloadTask task) {
+
+            }
+
+            @Override
+            public void onTaskUpdate(DownloadTask task) {
+                if (DownloadTask.COMPLETED == task.status || 100 == task.percent) {
+                    updateData();
+                }
+            }
+
+            @Override
+            public void onAllTaskPaused() {
+
+            }
+
+            @Override
+            public void onAllTaskResumed() {
+
+            }
+
+            @Override
+            public void onAllTaskCanceled() {
+
+            }
+        });
+    }
+
+    private void updateData() {
+        initData();
     }
 
     private void initData() {
         Log.e(TAG, "Xm initData");
-        Executor.runNow(new SafeJob() {
+        HMExecutor.runDelay(new SafeJob() {
             @Override
             public void safeRun() {
                 IDBService db = ServiceManager.getService(IDBService.class);
-                List<SearchSound> list = db.queryAll(SearchSound.class);
+                final List<SearchSound> list = db.queryAll(SearchSound.class);
                 if (list == null || list.isEmpty()) {
                     HLog.e(TAG, "initData get empty result");
                     return;
                 }
-                mDownlaoded.clear();
-                mDownlaoded.addAll(list);
                 getActivity().runOnUiThread(new SafeJob() {
                     @Override
                     public void safeRun() {
-                        mAdapter.notifyDataSetChanged();
+                        mDownlaoded.clear();
+                        mDownlaoded.addAll(list);
+//                        mAdapter.notifyDataSetChanged();
+                        mListAdapter.setData(mDownlaoded);
                     }
                 });
             }
-        });
+        }, 1000);
     }
 
     private void initUI() {
@@ -112,8 +153,12 @@ public class LocalFileFragment extends Fragment {
             }
 
         });
-        mAdapter = new DownloadAdapter();
-        mListView.setAdapter(mAdapter);
+//        mAdapter = new DownloadAdapter();
+//        mListView.setAdapter(mAdapter);
+        mListAdapter = new BindingListAdapter<>(
+                new EventHandler(), BR.event,
+                R.layout.item_sound_info, BR.sound);
+        mListView.setAdapter(mListAdapter);
     }
 
     @Override
@@ -127,6 +172,49 @@ public class LocalFileFragment extends Fragment {
 
         super.onDestroyView();
 
+    }
+
+    private void deleteSound(final SearchSound sound) {
+        if (sound == null) {
+            return;
+        }
+        final IDBService db = ServiceManager.getService(IDBService.class);
+        HMExecutor.runNow(new SafeJob() {
+            @Override
+            public void safeRun() {
+                boolean ret = db.delete(sound);
+                if (ret) {
+                    File file = new File(sound.getDownload_path());
+                    file.delete();
+                }
+                getActivity().runOnUiThread(new SafeJob() {
+                    @Override
+                    public void safeRun() {
+                        mDownlaoded.remove(sound);
+                        mListAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        });
+    }
+
+    private class EventHandler extends BindingAdapter {
+
+        @Override
+        public void onClick(View view) {
+            super.onClick(view);
+            Object tag = view.getTag();
+            if (!(tag instanceof SearchSound)) {
+                return;
+            }
+            SearchSound ss = (SearchSound) tag;
+            deleteSound(ss);
+        }
+
+        @Override
+        public int getMode() {
+            return 1;
+        }
     }
 
     class DownloadAdapter extends BaseAdapter {

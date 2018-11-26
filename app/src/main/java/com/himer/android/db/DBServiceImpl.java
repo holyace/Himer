@@ -101,6 +101,18 @@ public class DBServiceImpl implements IDBService {
 
     @Override
     public boolean delete(Object object) {
+        Class<? extends Object> entryClass = object.getClass();
+        AbstractDao dao = getDao(entryClass);
+        if (dao == null) {
+            HLog.e(TAG, "delete get dao fail", entryClass);
+            return false;
+        }
+        try {
+            dao.delete(object);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return false;
     }
 

@@ -60,6 +60,7 @@ public class DownloadTask implements Runnable {
     private DownloadManager mDownloadManager;
 
     private String mSubfix;
+    private String mRealPath;
 
     public DownloadTask(SoundInfo sound) {
         id = sound.trackId;
@@ -80,6 +81,10 @@ public class DownloadTask implements Runnable {
     private void init() {
         status = IDLE;
         mDownloadManager = DownloadManager.getInstance();
+    }
+
+    public String getDownloadPath() {
+        return mRealPath;
     }
 
     public String getSubfix() {
@@ -145,10 +150,6 @@ public class DownloadTask implements Runnable {
                 downloadLength += n;
                 int currPercent = (int) ((startPos + downloadLength) * 100 / (float) total);
                 if (leftLength == 0 || currPercent == 100) {
-                    status = COMPLETED;
-                    percent = 100;
-                    Log.e("", "Xm complete task " + title);
-                    mDownloadManager.updateTask(DownloadManager.MSG_TASK_COMPLETE, this);
                     File completeF = new File(dir, title + mSubfix);
                     if (completeF.exists()) {
                         completeF = new File(dir, title + System.currentTimeMillis() + mSubfix);
@@ -156,6 +157,14 @@ public class DownloadTask implements Runnable {
                     boolean ret = soundFile.renameTo(completeF);
                     if (!ret) {
                         Log.e("", "Xm rename faile " + title);
+                        mDownloadManager.updateTask(DownloadManager.MSG_TASK_FAILE, this);
+                    }
+                    else {
+                        status = COMPLETED;
+                        percent = 100;
+                        Log.e("", "Xm complete task " + title);
+                        mRealPath = completeF.getCanonicalPath();
+                        mDownloadManager.updateTask(DownloadManager.MSG_TASK_COMPLETE, this);
                     }
                 } else {
                     if (currPercent - percent > 5) {

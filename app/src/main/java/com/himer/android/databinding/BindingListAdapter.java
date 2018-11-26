@@ -1,4 +1,4 @@
-package com.himer.android.fragment;
+package com.himer.android.databinding;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -21,10 +21,10 @@ public class BindingListAdapter<T> extends BaseAdapter {
     private List<T> mData;
     private int mItemLayoutId;
     private int mVariableId;
-    private Object mEventHandler;
+    private BindingAdapter mEventHandler;
     private int mEventId;
 
-    public BindingListAdapter(Object eventHandler, int evnetId, int layoutId, int variableId) {
+    public BindingListAdapter(BindingAdapter eventHandler, int evnetId, int layoutId, int variableId) {
         mItemLayoutId = layoutId;
         mVariableId = variableId;
         mEventHandler = eventHandler;
@@ -61,7 +61,10 @@ public class BindingListAdapter<T> extends BaseAdapter {
             binding =  DataBindingUtil.inflate(
                     LayoutInflater.from(parent.getContext()),
                     mItemLayoutId, parent, false);
-            binding.setVariable(mEventId, mEventHandler);
+            if (mEventHandler != null) {
+                binding.setVariable(BR.mode, mEventHandler.getMode());
+                binding.setVariable(mEventId, mEventHandler);
+            }
         }
         else {
             binding = DataBindingUtil.getBinding(convertView);

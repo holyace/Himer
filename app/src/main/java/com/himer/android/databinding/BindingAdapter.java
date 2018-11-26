@@ -1,4 +1,4 @@
-package com.himer.android.fragment;
+package com.himer.android.databinding;
 
 import android.view.View;
 
@@ -15,5 +15,9 @@ public class BindingAdapter {
 
     public void onClick(View view) {
         HLog.w(TAG, "onClick");
+    }
+
+    public int getMode() {
+        return 0;
     }
 }

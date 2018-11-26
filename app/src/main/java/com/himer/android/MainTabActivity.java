@@ -39,16 +39,18 @@ public class MainTabActivity extends AppCompatActivity {
     private Fragment mDownloadFragment;
     private Fragment mLocalFileFragment;
     private Fragment mCurrentFragment;
-    private int mContentId = R.id.real_tab_content;
+    private int mContentId = android.R.id.tabcontent;
+    private View mContentContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_tab);
 
+        mContext = this;
+
         ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE);
 
-        mContext = this;
         mFragmentManager = getSupportFragmentManager();
         initTab();
     }
@@ -60,11 +62,14 @@ public class MainTabActivity extends AppCompatActivity {
             if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "PERMISSION_DENIED", Toast.LENGTH_SHORT).show();
             }
+            else {
+                finish();
+            }
         }
     }
 
     private void initTab() {
-        mTabHost = (TabHost) findViewById(android.R.id.tabhost);
+        mTabHost = findViewById(android.R.id.tabhost);
         mTabHost.setup();
         mTabHost.setOnTabChangedListener(new OnTabChangeListener() {
 
@@ -124,7 +129,10 @@ public class MainTabActivity extends AppCompatActivity {
         TabHost.TabSpec spec = mTabHost.newTabSpec(tag);
         spec.setContent(new TabHost.TabContentFactory() {
             public View createTabContent(String tag) {
-                return findViewById(mContentId);
+                if (mContentContainer == null) {
+                    mContentContainer = findViewById(mContentId);
+                }
+                return mContentContainer;
             }
         });
         spec.setIndicator(createTabView(tag, title, iconId));

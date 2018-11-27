@@ -1,6 +1,6 @@
-package com.chad.android.common.service.shell;
+package com.himer.android.common.service.shell;
 
-import com.chad.android.common.service.IService;
+import com.himer.android.common.service.IService;
 
 /**
  * No comment for you. yeah, come on, bite me~

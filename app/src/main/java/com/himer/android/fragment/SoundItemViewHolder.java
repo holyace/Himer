@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.chad.android.common.widget.HMImageView;
+import com.himer.android.common.widget.HMImageView;
 import com.himer.android.R;
 
 import java.util.Map;

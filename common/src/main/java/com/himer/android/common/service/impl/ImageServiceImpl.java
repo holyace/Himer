@@ -1,11 +1,11 @@
-package com.chad.android.common.service.impl;
+package com.himer.android.common.service.impl;
 
 import android.app.Application;
 import android.graphics.Bitmap;
 
-import com.chad.android.common.service.shell.IImageService;
-import com.chad.android.common.service.shell.ImageListener;
-import com.chad.android.common.widget.HMImageView;
+import com.himer.android.common.service.shell.IImageService;
+import com.himer.android.common.service.shell.ImageListener;
+import com.himer.android.common.widget.HMImageView;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 

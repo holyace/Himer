@@ -1,4 +1,4 @@
-package com.chad.android.common.service;
+package com.himer.android.common.service;
 
 /**
  * No comment for you. yeah, come on, bite me~

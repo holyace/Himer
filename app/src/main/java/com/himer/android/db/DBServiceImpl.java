@@ -3,11 +3,11 @@ package com.himer.android.db;
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.chad.android.common.service.shell.IDBService;
+import com.himer.android.common.service.shell.IDBService;
+import com.himer.android.common.util.HLog;
 import com.himer.android.AppConstant;
 import com.himer.android.greendao.DaoMaster;
 import com.himer.android.greendao.DaoSession;
-import com.himer.android.util.HLog;
 
 import org.greenrobot.greendao.AbstractDao;
 

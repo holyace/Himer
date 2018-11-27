@@ -2,11 +2,11 @@ package com.himer.android.init;
 
 import android.app.Application;
 
-import com.chad.android.common.service.ServiceConfig;
-import com.chad.android.common.service.ServiceManager;
-import com.chad.android.common.service.impl.ImageServiceImpl;
-import com.chad.android.common.service.shell.IDBService;
-import com.chad.android.common.service.shell.IImageService;
+import com.himer.android.common.service.ServiceConfig;
+import com.himer.android.common.service.ServiceManager;
+import com.himer.android.common.service.impl.ImageServiceImpl;
+import com.himer.android.common.service.shell.IDBService;
+import com.himer.android.common.service.shell.IImageService;
 import com.himer.android.Global;
 import com.himer.android.db.DBServiceImpl;
 

@@ -10,7 +10,7 @@
     android:paddingBottom="10dp"
     >
 
-    <com.chad.android.common.widget.HMImageView
+    <com.himer.android.common.widget.HMImageView
         android:id="@+id/sound_icon"
         android:layout_width="40dp"
         android:layout_height="40dp"

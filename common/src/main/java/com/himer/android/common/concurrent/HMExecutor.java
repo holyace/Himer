@@ -1,4 +1,4 @@
-package com.chad.android.common.concurrent;
+package com.himer.android.common.concurrent;
 
 import java.util.Timer;
 import java.util.TimerTask;

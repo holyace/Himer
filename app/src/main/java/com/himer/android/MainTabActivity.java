@@ -61,8 +61,6 @@ public class MainTabActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE) {
             if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "PERMISSION_DENIED", Toast.LENGTH_SHORT).show();
-            }
-            else {
                 finish();
             }
         }
@@ -145,6 +143,7 @@ public class MainTabActivity extends AppCompatActivity {
         TextView tv = tab.findViewById(R.id.tab_text);
         tv.setText(title);
         icon.setImageResource(iconId);
+        tab.setTag(tag);
         return tab;
     }
 

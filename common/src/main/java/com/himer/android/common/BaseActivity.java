@@ -1,4 +1,4 @@
-package com.chad.android.common;
+package com.himer.android.common;
 
 import android.app.Activity;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package com.himer.android.util;
+package com.himer.android.common.util;
 
 import android.util.Log;
 

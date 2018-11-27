@@ -1,4 +1,4 @@
-package com.chad.android.common.service;
+package com.himer.android.common.service;
 
 import java.util.HashMap;
 import java.util.Map;

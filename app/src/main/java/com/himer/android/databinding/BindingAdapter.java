@@ -2,7 +2,8 @@ package com.himer.android.databinding;
 
 import android.view.View;
 
-import com.himer.android.util.HLog;
+import com.himer.android.common.util.HLog;
+
 
 /**
  * No comment for you. yeah, come on, bite me~

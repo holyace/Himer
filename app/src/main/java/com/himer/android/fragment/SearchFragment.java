@@ -36,7 +36,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.chad.android.common.widget.HMImageView;
+import com.himer.android.common.widget.HMImageView;
 import com.himer.android.AppConstant;
 import com.himer.android.BR;
 import com.himer.android.MainTabActivity;

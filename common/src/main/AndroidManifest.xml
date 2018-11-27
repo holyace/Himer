@@ -1,2 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.chad.android.common" />
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.himer.android.common">
+
+</manifest>

@@ -27,12 +27,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.himer.android.BR;
+import com.himer.android.R;
 import com.himer.android.common.concurrent.HMExecutor;
 import com.himer.android.common.concurrent.SafeJob;
 import com.himer.android.common.service.ServiceManager;
 import com.himer.android.common.service.shell.IDBService;
-import com.himer.android.R;
 import com.himer.android.common.util.HLog;
 import com.himer.android.databinding.BindingAdapter;
 import com.himer.android.databinding.BindingListAdapter;
@@ -115,12 +116,17 @@ public class LocalFileFragment extends Fragment {
     }
 
     private void updateData() {
-        initData();
+        HMExecutor.runDelay(new SafeJob() {
+            @Override
+            public void safeRun() {
+                initData();
+            }
+        }, 1000);
     }
 
     private void initData() {
         Log.e(TAG, "Xm initData");
-        HMExecutor.runDelay(new SafeJob() {
+        HMExecutor.runNow(new SafeJob() {
             @Override
             public void safeRun() {
                 IDBService db = ServiceManager.getService(IDBService.class);
@@ -139,7 +145,7 @@ public class LocalFileFragment extends Fragment {
                     }
                 });
             }
-        }, 1000);
+        });
     }
 
     private void initUI() {

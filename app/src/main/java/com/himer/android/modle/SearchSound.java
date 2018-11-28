@@ -4,6 +4,7 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.NotNull;
@@ -13,12 +14,10 @@ public class SearchSound {
 
     public String play_path_64;
 
-    @Id(autoincrement = true)
-    public Long localId;
-
     @NotNull
     public long saveTime;
 
+    @Id
     public long id;
     public String title;
     public String tags;
@@ -50,18 +49,17 @@ public class SearchSound {
     public boolean is_playing;
     public boolean isRelay;
     public String play_path_aac_v224;
-    @Generated(hash = 1038041528)
-    public SearchSound(String play_path_64, Long localId, long saveTime, long id,
-            String title, String tags, String play_path, boolean is_public,
-            long created_at, int category_id, String cover_path, int user_source,
-            double duration, long updated_at, String play_path_32,
-            String download_path, int upload_source, String album_cover_path,
-            int album_id, String album_title, long uid, boolean is_v,
-            String nickname, String avatar_path, int count_play, int count_comment,
-            int count_share, int count_like, String smallLogo, boolean is_like,
-            boolean is_playing, boolean isRelay, String play_path_aac_v224) {
+    @Generated(hash = 1916622752)
+    public SearchSound(String play_path_64, long saveTime, long id, String title,
+            String tags, String play_path, boolean is_public, long created_at,
+            int category_id, String cover_path, int user_source, double duration,
+            long updated_at, String play_path_32, String download_path,
+            int upload_source, String album_cover_path, int album_id,
+            String album_title, long uid, boolean is_v, String nickname,
+            String avatar_path, int count_play, int count_comment, int count_share,
+            int count_like, String smallLogo, boolean is_like, boolean is_playing,
+            boolean isRelay, String play_path_aac_v224) {
         this.play_path_64 = play_path_64;
-        this.localId = localId;
         this.saveTime = saveTime;
         this.id = id;
         this.title = title;
@@ -102,12 +100,6 @@ public class SearchSound {
     }
     public void setPlay_path_64(String play_path_64) {
         this.play_path_64 = play_path_64;
-    }
-    public Long getLocalId() {
-        return this.localId;
-    }
-    public void setLocalId(Long localId) {
-        this.localId = localId;
     }
     public long getSaveTime() {
         return this.saveTime;
@@ -295,5 +287,19 @@ public class SearchSound {
     public void setPlay_path_aac_v224(String play_path_aac_v224) {
         this.play_path_aac_v224 = play_path_aac_v224;
     }
-    
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SearchSound that = (SearchSound) o;
+
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (id ^ (id >>> 32));
+    }
 }

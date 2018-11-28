@@ -201,9 +201,11 @@ public class SearchFragment extends Fragment {
                 } else {
                     pd.dismiss();
                 }
-                pd.setTitle("搜索\"" + keyWord + "\"");
-                pd.setMessage("正在搜索,请稍候...");
-                pd.show();
+                if (mPageId == 1) {
+                    pd.setTitle("搜索\"" + keyWord + "\"");
+                    pd.setMessage("正在搜索,请稍候...");
+                    pd.show();
+                }
 
             }
 
@@ -266,11 +268,11 @@ public class SearchFragment extends Fragment {
         }
         Toast.makeText(mContext, "开始下载\"" + ss.title + "\"", Toast.LENGTH_SHORT).show();
         DownloadManager.getInstance().downloadSound(ss, false);
-        if (isFirst) {
-            ((MainTabActivity) mContext)
-                    .setCurrentTab(MainTabActivity.TAB_B);
-            isFirst = false;
-        }
+//        if (isFirst) {
+//            ((MainTabActivity) mContext)
+//                    .setCurrentTab(MainTabActivity.TAB_B);
+//            isFirst = false;
+//        }
     }
 
     private class EventHandler extends BindingAdapter {

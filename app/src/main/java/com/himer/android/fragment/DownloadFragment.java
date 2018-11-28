@@ -90,10 +90,16 @@ public class DownloadFragment extends Fragment {
 
             @Override
             public void onTaskUpdate(DownloadTask task) {
-                if (task != null) {
-                    Log.e("", "Xm onTaskUpdate " + task.title + ", "
-                            + task.status + ", " + task.percent);
+                if (task == null) {
+                    return;
                 }
+                Log.e("", "Xm onTaskUpdate " + task.title + ", "
+                        + task.status + ", " + task.percent);
+
+                if (!mDownloadTask.contains(task)) {
+                    return;
+                }
+
                 mAdapter.updateItem(task);
 
                 if (100 == task.percent) {
@@ -106,7 +112,7 @@ public class DownloadFragment extends Fragment {
                             @Override
                             public void safeRun() {
                                 IDBService db = ServiceManager.getService(IDBService.class);
-                                long id = db.insert(ss);
+                                long id = db.insertOrUpdate(ss);
                                 if (id < 0) {
                                     HLog.e(TAG, "insert fail id = ", id, "sound title = ", ss.getTitle());
                                 }
@@ -129,6 +135,9 @@ public class DownloadFragment extends Fragment {
             @Override
             public void onTaskCancel(DownloadTask task) {
                 Log.e("", "Xm onTaskCancel ");
+                if (!mDownloadTask.contains(task)) {
+                    return;
+                }
                 mDownloadTask.remove(task);
                 mAdapter.notifyDataSetChanged();
             }
@@ -136,6 +145,9 @@ public class DownloadFragment extends Fragment {
             @Override
             public void onNewTask(DownloadTask task) {
                 Log.e("", "Xm onNewTask ");
+                if (mDownloadTask.contains(task)) {
+                    return;
+                }
                 mDownloadTask.add(task);
                 mAdapter.notifyDataSetChanged();
             }

@@ -4,7 +4,7 @@ apply plugin: 'org.greenrobot.greendao'
 greendao {
     schemaVersion 1
     daoPackage 'com.himer.android.greendao'
-    targetGenDir 'src/main/java'
+//    targetGenDir 'src/main/java'
 }
 
 android {

@@ -2,6 +2,7 @@
 <layout>
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="sound"
             type="com.himer.android.modle.SearchSound" />
@@ -86,7 +87,7 @@
                 />
 
             <TextView
-                android:id="@+id/audio_tags"
+                android:id="@+id/sound_tags"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -94,10 +95,10 @@
                 android:background="#FFFFCC"
                 android:textColor="#999999"
                 android:textSize="12sp"
-                android:visibility="visible"
+                android:visibility="@{sound.tags != null ? View.VISIBLE : View.GONE}"
                 tools:text="#热歌榜"
                 android:maxLines="1"
-                android:text="@{sound.tags}"
+                android:text='@{"#" + sound.tags}'
                 />
         </LinearLayout>
 
@@ -147,7 +148,8 @@
                 android:textColor="#999999"
                 android:gravity="center_vertical"
                 android:includeFontPadding="false"
-                android:text="@{String.valueOf(sound.count_play)}"
+                android:maxLines="1"
+                android:text='@{String.valueOf(sound.count_play > 10000 ? (sound.count_play / 10000 + "万") : sound.count_play)}'
                 />
 
             <TextView
@@ -161,7 +163,8 @@
                 android:textColor="#999999"
                 android:gravity="center_vertical"
                 android:includeFontPadding="false"
-                android:text="@{String.valueOf(sound.count_like)}"
+                android:maxLines="1"
+                android:text='@{String.valueOf(sound.count_like > 10000 ? (sound.count_like / 1000 + "万") : sound.count_like)}'
                 />
         </LinearLayout>
 

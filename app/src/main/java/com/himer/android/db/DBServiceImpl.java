@@ -3,14 +3,17 @@ package com.himer.android.db;
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.himer.android.AppConstant;
 import com.himer.android.common.service.shell.IDBService;
 import com.himer.android.common.util.HLog;
-import com.himer.android.AppConstant;
 import com.himer.android.greendao.DaoMaster;
 import com.himer.android.greendao.DaoSession;
 
 import org.greenrobot.greendao.AbstractDao;
+import org.greenrobot.greendao.annotation.Id;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
@@ -57,9 +60,9 @@ public class DBServiceImpl implements IDBService {
         mDaoSession = null;
     }
 
-    private <D extends Object, T extends AbstractDao<D, Long>> T getDao(Class<D> entryClass) {
+    private <T> AbstractDao<T, Long> getDao(Class<T> entryClass) {
         try {
-            return (T) mDaoSession.getDao(entryClass);
+            return (AbstractDao<T, Long>) mDaoSession.getDao(entryClass);
         } catch (Exception e) {
             HLog.exception(TAG, e);
         }
@@ -67,11 +70,13 @@ public class DBServiceImpl implements IDBService {
     }
 
     @Override
-    public long insert(Object object) {
+    @SuppressWarnings("unchecked")
+    public <T> long insert(T object) {
         if (object == null) {
             return -1;
         }
-        AbstractDao dao = getDao(object.getClass());
+        AbstractDao<T, Long> dao = getDao((Class<T>) object.getClass());
+//        AbstractDao<T, Long> dao = null;
         if (dao == null) {
             HLog.e(TAG, "insert get dao fail", object.toString());
             return -1;
@@ -85,13 +90,15 @@ public class DBServiceImpl implements IDBService {
     }
 
     @Override
-    public void insertAll(List<? extends Object> list) {
+    @SuppressWarnings("unchecked")
+    public <T> void insertAll(List<T> list) {
         if (list == null || list.size() == 0) {
             HLog.e(TAG, "insertAll empty list");
             return;
         }
-        Class<? extends Object> entryClass = list.get(0).getClass();
-        AbstractDao dao = getDao(entryClass);
+        Class<T> entryClass = (Class<T>) list.get(0).getClass();
+//        Class<T> entryClass = null;
+        AbstractDao<T, Long> dao = getDao(entryClass);
         if (dao == null) {
             HLog.e(TAG, "insertAll get dao fail", entryClass);
             return;
@@ -100,7 +107,19 @@ public class DBServiceImpl implements IDBService {
     }
 
     @Override
-    public boolean delete(Object object) {
+    @SuppressWarnings("unchecked")
+    public <T> long insertOrUpdate(T object) {
+        AbstractDao<T, Long> dao = getDao((Class<T>) object.getClass());
+
+        if (dao == null) {
+            return -1;
+        }
+
+        return dao.insertOrReplace(object);
+    }
+
+    @Override
+    public <T> boolean delete(T object) {
         Class<? extends Object> entryClass = object.getClass();
         AbstractDao dao = getDao(entryClass);
         if (dao == null) {
@@ -117,23 +136,27 @@ public class DBServiceImpl implements IDBService {
     }
 
     @Override
-    public boolean update(Object object) {
+    public <T> boolean update(T object) {
         return false;
     }
 
     @Override
-    public boolean deleteById(Class<?> classType, long id) {
+    public <T> boolean deleteById(Class<T> classType, long id) {
         return false;
     }
 
     @Override
-    public boolean deleteAll(Class<?> classType) {
+    public <T> boolean deleteAll(Class<T> classType) {
         return false;
     }
 
     @Override
     public <T> T queryById(Class<T> classType, long id) {
-        return null;
+        AbstractDao<T, Long> dao = getDao(classType);
+        if (dao == null) {
+            return null;
+        }
+        return dao.load(id);
     }
 
     @Override

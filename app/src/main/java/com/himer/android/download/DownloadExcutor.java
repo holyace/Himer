@@ -65,7 +65,7 @@ public class DownloadExcutor {
     }
 
     private void setup() {
-        mTaskQueue = new LinkedBlockingQueue<Runnable>();
+        mTaskQueue = new LinkedBlockingQueue<>();
         mThreadPool = new ThreadPoolExecutor(1, 1, 30, TimeUnit.SECONDS, mTaskQueue);
         mThreadPool.setRejectedExecutionHandler(new RejectedExecutionHandler() {
 
@@ -198,6 +198,10 @@ public class DownloadExcutor {
             mThreadPool.execute(task);
         }
         DownloadManager.getInstance().updateTask(DownloadManager.MSG_NEW_TASK, task);
+    }
+
+    public DownloadTask getCurentTask() {
+        return mCurentTask;
     }
 
     public void cancelAllTask(boolean deep) {

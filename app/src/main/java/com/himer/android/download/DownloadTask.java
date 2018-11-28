@@ -91,6 +91,14 @@ public class DownloadTask implements Runnable {
         return mSubfix;
     }
 
+    private void handleComplete(String path) {
+        status = COMPLETED;
+        percent = 100;
+        Log.e("", "Xm complete task " + title);
+        mRealPath = path;
+        mDownloadManager.updateTask(DownloadManager.MSG_TASK_COMPLETE, this);
+    }
+
     @Override
     public void run() {
         isRunning = true;
@@ -114,7 +122,12 @@ public class DownloadTask implements Runnable {
             }
             long startPos = 0;
             long fileLength = 0;
-            File soundFile = new File(dir, title + mSubfix + ".temp");
+            File soundFile = new File(dir, title + mSubfix);
+            if (soundFile.exists()) {
+                handleComplete(soundFile.getCanonicalPath());
+                return;
+            }
+            soundFile = new File(dir, title + mSubfix + ".temp");
             if (!soundFile.exists()) {
                 soundFile.createNewFile();
             }
@@ -160,11 +173,7 @@ public class DownloadTask implements Runnable {
                         mDownloadManager.updateTask(DownloadManager.MSG_TASK_FAILE, this);
                     }
                     else {
-                        status = COMPLETED;
-                        percent = 100;
-                        Log.e("", "Xm complete task " + title);
-                        mRealPath = completeF.getCanonicalPath();
-                        mDownloadManager.updateTask(DownloadManager.MSG_TASK_COMPLETE, this);
+                        handleComplete(completeF.getCanonicalPath());
                     }
                 } else {
                     if (currPercent - percent > 5) {

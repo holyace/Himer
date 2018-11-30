@@ -44,6 +44,7 @@ import com.himer.android.modle.SearchSound;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -162,8 +163,11 @@ public class LocalFileFragment extends Fragment {
 //        mAdapter = new DownloadAdapter();
 //        mListView.setAdapter(mAdapter);
         mListAdapter = new BindingListAdapter<>(
-                new EventHandler(), BR.event,
-                R.layout.item_sound_info, BR.sound);
+                R.layout.item_sound_info);
+        mListAdapter.setVariables(new HashMap<Integer, Object>(){{
+                    put(BR.mode, 1);
+                    put(BR.event, new BindingAdapter(mListAdapter));
+                }});
         mListView.setAdapter(mListAdapter);
     }
 
@@ -204,24 +208,24 @@ public class LocalFileFragment extends Fragment {
         });
     }
 
-    private class EventHandler extends BindingAdapter {
-
-        @Override
-        public void onClick(View view) {
-            super.onClick(view);
-            Object tag = view.getTag();
-            if (!(tag instanceof SearchSound)) {
-                return;
-            }
-            SearchSound ss = (SearchSound) tag;
-            deleteSound(ss);
-        }
-
-        @Override
-        public int getMode() {
-            return 1;
-        }
-    }
+//    private class EventHandler extends BindingAdapter {
+//
+//        @Override
+//        public void onClick(View view, String type) {
+//            super.onClick(view, type);
+//            Object tag = view.getTag();
+//            if (!(tag instanceof SearchSound)) {
+//                return;
+//            }
+//            SearchSound ss = (SearchSound) tag;
+//            deleteSound(ss);
+//        }
+//
+//        @Override
+//        public int getMode() {
+//            return 1;
+//        }
+//    }
 
     class DownloadAdapter extends BaseAdapter {
 

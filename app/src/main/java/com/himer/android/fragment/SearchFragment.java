@@ -51,6 +51,7 @@ import com.himer.android.view.PullToRefreshListView;
 import com.loopj.android.http.RequestParams;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -95,15 +96,16 @@ public class SearchFragment extends Fragment {
     }
 
     private void initUI() {
-        mEditText = (EditText) mContent.findViewById(R.id.search_et);
-        mButton = (Button) mContent.findViewById(R.id.search_btn);
-        mListView = (PullToRefreshListView) mContent.
-                findViewById(R.id.search_result);
-//        mAdapter = new SearchAdapter();
-//        mListView.setAdapter(mAdapter);
+        mEditText = mContent.findViewById(R.id.search_et);
+        mButton = mContent.findViewById(R.id.search_btn);
+        mListView = mContent.findViewById(R.id.search_result);
         mBindingListAdapter = new BindingListAdapter<>(
-                new EventHandler(), BR.event,
-                R.layout.item_sound_info, BR.sound);
+                R.layout.item_sound_info);
+        mBindingListAdapter.setVariables(
+                new HashMap<Integer, Object>(){{
+                    put(BR.mode, 0);
+                    put(BR.event, new BindingAdapter(mBindingListAdapter));
+                }});
         mListView.setAdapter(mBindingListAdapter);
         mListView.setOnScrollListener(new OnScrollListener() {
 
@@ -275,19 +277,23 @@ public class SearchFragment extends Fragment {
 //        }
     }
 
-    private class EventHandler extends BindingAdapter {
-
-        @Override
-        public void onClick(View view) {
-            super.onClick(view);
-            Object tag = view.getTag();
-            if (!(tag instanceof SearchSound)) {
-                return;
-            }
-            SearchSound ss = (SearchSound) tag;
-            downloadSound(ss);
-        }
-    }
+//    private class EventHandler extends BindingAdapter {
+//
+//        public EventHandler(int mode) {
+//            super(mode);
+//        }
+//
+//        @Override
+//        public void onClick(View view, String type) {
+//            super.onClick(view, type);
+//            Object tag = view.getTag();
+//            if (!(tag instanceof SearchSound)) {
+//                return;
+//            }
+//            SearchSound ss = (SearchSound) tag;
+//            downloadSound(ss);
+//        }
+//    }
 
     class SearchAdapter extends BaseAdapter {
 

@@ -1,4 +1,6 @@
-include ':app', ':maintab'
+include ':app'
+include ':maintab'
+include ':himer_player'
 include ':downloader'
 include ':common_ui'
 include ':common'

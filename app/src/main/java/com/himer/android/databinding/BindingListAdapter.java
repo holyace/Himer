@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import com.himer.android.BR;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * No comment for you. yeah, come on, bite me~
@@ -20,15 +21,16 @@ public class BindingListAdapter<T> extends BaseAdapter {
 
     private List<T> mData;
     private int mItemLayoutId;
-    private int mVariableId;
-    private BindingAdapter mEventHandler;
-    private int mEventId;
 
-    public BindingListAdapter(BindingAdapter eventHandler, int evnetId, int layoutId, int variableId) {
+    private Map<Integer, Object> mVariables;
+
+    public BindingListAdapter(int layoutId) {
         mItemLayoutId = layoutId;
-        mVariableId = variableId;
-        mEventHandler = eventHandler;
-        mEventId = evnetId;
+
+    }
+
+    public void setVariables(Map<Integer, Object> variables) {
+        mVariables = variables;
     }
 
     public void setData(List<T> list) {
@@ -61,15 +63,22 @@ public class BindingListAdapter<T> extends BaseAdapter {
             binding =  DataBindingUtil.inflate(
                     LayoutInflater.from(parent.getContext()),
                     mItemLayoutId, parent, false);
-            if (mEventHandler != null) {
-                binding.setVariable(BR.mode, mEventHandler.getMode());
-                binding.setVariable(mEventId, mEventHandler);
+            if (mVariables != null) {
+                for (Map.Entry<Integer, Object> entry : mVariables.entrySet()) {
+                    binding.setVariable(entry.getKey(), entry.getValue());
+                }
             }
         }
         else {
             binding = DataBindingUtil.getBinding(convertView);
         }
-        binding.setVariable(mVariableId, getItem(position));
+        binding.setVariable(BR.sound, getItem(position));
         return binding.getRoot();
+    }
+
+    public void remove(T item) {
+        if (mData.remove(item)) {
+            notifyDataSetChanged();
+        }
     }
 }

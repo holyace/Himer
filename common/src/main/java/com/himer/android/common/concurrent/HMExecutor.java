@@ -1,5 +1,8 @@
 package com.himer.android.common.concurrent;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
@@ -26,6 +29,8 @@ public class HMExecutor {
             new LinkedBlockingQueue<Runnable>(128);
 
     private static Executor sDefExecutor;
+
+    private static Handler mUiHandler = new Handler(Looper.getMainLooper());
 
     private static final ThreadFactory sThreadFactory = new ThreadFactory() {
         private final AtomicInteger mCount = new AtomicInteger(1);
@@ -60,5 +65,18 @@ public class HMExecutor {
                 runNow(job);
             }
         }, delay);
+    }
+
+    public static void runUiThread(Job job) {
+        runUiThread(job, 0);
+    }
+
+    public static void runUiThread(Job job, long delay) {
+        if (delay <= 0) {
+            mUiHandler.post(job);
+        }
+        else {
+            mUiHandler.postDelayed(job, delay);
+        }
     }
 }

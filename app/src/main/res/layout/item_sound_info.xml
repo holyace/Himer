@@ -24,7 +24,10 @@
         android:paddingBottom="5dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:paddingTop="5dp">
+        android:paddingTop="5dp"
+        android:tag="@{sound}"
+        android:onClick='@{(view)->event.onClick(view, "play")}'
+        >
 
         <com.himer.android.common.widget.HMImageView
             android:id="@+id/sound_icon"
@@ -34,6 +37,8 @@
             android:scaleType="fitCenter"
             fresco:placeholderImage="@drawable/sound"
             android:src="@{sound.cover_path}"
+            android:tag="@{sound}"
+            android:onClick='@{(view)->event.onClick(view, "viewImage")}'
             />
 
         <ImageView
@@ -45,7 +50,7 @@
             android:layout_centerVertical="true"
             android:src="@{mode == 1 ? @drawable/delete : @drawable/download}"
             android:tag="@{sound}"
-            android:onClick="@{event.onClick}"
+            android:onClick='@{(view)->event.onClick(view, mode == 1 ? "delete" : "download")}'
             />
 
 

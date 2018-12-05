@@ -7,13 +7,15 @@ package com.himer.android.player;
  */
 public interface IPlayerListener {
 
-    void onPlay(int index);
+    void onPlay();
 
     void onPause();
 
     void onStop();
 
     void onComplete();
+
+    void onPlayChange(int index);
 
     void onPositionChange(int position, int duration);
 

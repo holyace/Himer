@@ -1,6 +1,8 @@
-package com.himer.android.player;
+package com.himer.android.player.impl;
 
 import android.media.MediaPlayer;
+
+import com.himer.android.player.constants.PlayerState;
 
 import java.io.IOException;
 

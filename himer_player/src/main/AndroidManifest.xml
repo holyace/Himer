@@ -2,9 +2,8 @@
     package="com.himer.android.player" >
 
     <application>
-        <service android:name=".PlayerService"
+        <service android:name=".service.PlayerService"
             android:exported="true"
-            android:process=":player"
             >
 
             <intent-filter>

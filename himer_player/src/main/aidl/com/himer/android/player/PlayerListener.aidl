@@ -5,7 +5,7 @@ package com.himer.android.player;
 
 interface PlayerListener {
 
-    void onPlay(int index);
+    void onPlay();
 
     void onPause();
 
@@ -13,9 +13,11 @@ interface PlayerListener {
 
     void onComplete();
 
+    void onPlayChange(int index);
+
     void onPositionChange(int position, int duration);
 
-    void onBufferingChange(int bufferPosition);
+    void onBufferingChange(int percent);
 
     void onError(int errorCode, String errorMessage);
 

@@ -23,6 +23,8 @@ public interface IPlayer {
 
     void previous();
 
+    void onPlayChange(int index);
+
     void setMode(int mode);
 
     void seekTo(int position);

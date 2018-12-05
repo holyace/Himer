@@ -7,6 +7,9 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.RemoteException;
 
+import com.himer.android.player.constants.PlayerConstants;
+import com.himer.android.player.util.CollectionUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,12 +31,14 @@ public class PlayerManager implements PlayerConstants, IPlayer {
 
     private List<IPlayerListener> mPlayerListenerList;
 
+    private List<Audio> mPlayList;
+
     private PlayerListener mPlayerListener = new PlayerListener() {
 
         @Override
-        public void onPlay(int index) {
+        public void onPlay() {
             for (IPlayerListener l : mPlayerListenerList) {
-                l.onPlay(index);
+                l.onPlay();
             }
         }
 
@@ -76,6 +81,13 @@ public class PlayerManager implements PlayerConstants, IPlayer {
         public void onError(int errorCode, String errorMessage) {
             for (IPlayerListener l : mPlayerListenerList) {
                 l.onError(errorCode, errorMessage);
+            }
+        }
+
+        @Override
+        public void onPlayChange(int index) {
+            for (IPlayerListener l : mPlayerListenerList) {
+                l.onPlayChange(index);
             }
         }
 
@@ -133,7 +145,17 @@ public class PlayerManager implements PlayerConstants, IPlayer {
         mServiceIntent.setPackage(appCtx.getPackageName());
         mPlayerListenerList = new ArrayList<>();
 
+        startServiceInternal();
+
         bindService();
+    }
+
+    private void startServiceInternal() {
+        mAppCtx.startService(mServiceIntent);
+    }
+
+    private void stopServiceInternal() {
+        mAppCtx.stopService(mServiceIntent);
     }
 
     public static PlayerManager getInstance(Context context) {
@@ -155,6 +177,10 @@ public class PlayerManager implements PlayerConstants, IPlayer {
         mAppCtx.bindService(mServiceIntent, mConnection, Context.BIND_AUTO_CREATE);
     }
 
+    private void unbindService() {
+        mAppCtx.unbindService(mConnection);
+    }
+
     @Override
     public void play() {
 
@@ -174,6 +200,7 @@ public class PlayerManager implements PlayerConstants, IPlayer {
 
     @Override
     public void setAudioList(List<Audio> audioList) {
+        mPlayList = audioList;
         if (mPlayer != null) {
             try {
                 mPlayer.setAudioList(audioList);
@@ -228,6 +255,11 @@ public class PlayerManager implements PlayerConstants, IPlayer {
     }
 
     @Override
+    public void onPlayChange(int index) {
+
+    }
+
+    @Override
     public void setMode(int mode) {
         if (mPlayer != null) {
             try {
@@ -278,16 +310,25 @@ public class PlayerManager implements PlayerConstants, IPlayer {
             try {
                 mPlayer.stop();
                 mPlayer.registePlayerListener(null);
-
-                mAppCtx.unbindService(mConnection);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
         }
+
+        stopServiceInternal();
+
+        unbindService();
     }
 
     @Override
     public void addPlayerListener(IPlayerListener listener) {
         mPlayerListenerList.add(listener);
+    }
+
+    public Audio getAudio(int index) {
+        if (CollectionUtil.isIndexInRange(mPlayList, index)) {
+           return mPlayList.get(index);
+        }
+        return null;
     }
 }

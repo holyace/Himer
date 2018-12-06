@@ -10,4 +10,8 @@ import android.os.Parcelable;
 public interface IAudio extends Parcelable {
 
     String getPath();
+
+    String getTitle();
+
+    String getCoverPath();
 }

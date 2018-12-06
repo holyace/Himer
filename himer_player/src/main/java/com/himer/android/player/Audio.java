@@ -10,15 +10,8 @@ import android.os.Parcel;
 public class Audio  implements IAudio {
 
     private String path;
-
-    @Override
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
+    private String title;
+    private String cover;
 
     @Override
     public int describeContents() {
@@ -28,6 +21,8 @@ public class Audio  implements IAudio {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.path);
+        dest.writeString(this.title);
+        dest.writeString(this.cover);
     }
 
     public Audio() {
@@ -35,6 +30,8 @@ public class Audio  implements IAudio {
 
     protected Audio(Parcel in) {
         this.path = in.readString();
+        this.title = in.readString();
+        this.cover = in.readString();
     }
 
     public static final Creator<Audio> CREATOR = new Creator<Audio>() {
@@ -48,4 +45,35 @@ public class Audio  implements IAudio {
             return new Audio[size];
         }
     };
+
+    @Override
+    public String getPath() {
+        return path;
+    }
+
+    @Override
+    public String getTitle() {
+        return title;
+    }
+
+    @Override
+    public String getCoverPath() {
+        return cover;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCoverPath(String cover) {
+        this.cover = cover;
+    }
 }

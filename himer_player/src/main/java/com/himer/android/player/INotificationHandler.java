@@ -3,6 +3,8 @@ package com.himer.android.player;
 import android.app.Notification;
 import android.widget.RemoteViews;
 
+import com.himer.android.player.constants.PlayerState;
+
 /**
  * No comment for you. yeah, come on, bite me~
  * <p>
@@ -10,9 +12,5 @@ import android.widget.RemoteViews;
  */
 public interface INotificationHandler {
 
-    Notification getNotification();
-
-    RemoteViews getRemoteViews();
-
-    void update(RemoteViews remoteViews, Audio audio);
+    void update(PlayerState state, Audio audio);
 }

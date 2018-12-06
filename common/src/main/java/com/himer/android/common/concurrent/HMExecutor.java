@@ -40,6 +40,8 @@ public class HMExecutor {
         }
     };
 
+    private static Timer sTimer = new Timer();
+
     static {
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
                 CORE_POOL_SIZE, MAXIMUM_POOL_SIZE, KEEP_ALIVE_SECONDS, TimeUnit.SECONDS,
@@ -47,8 +49,6 @@ public class HMExecutor {
         threadPoolExecutor.allowCoreThreadTimeOut(true);
         sDefExecutor = threadPoolExecutor;
     }
-
-    private static Timer sTimer = new Timer();
 
     public static void runNow(Job job) {
         runNow(sDefExecutor, job);
@@ -59,6 +59,12 @@ public class HMExecutor {
     }
 
     public static void runDelay(final Job job, long delay) {
+
+        if (delay <= 0) {
+            runNow(job);
+            return;
+        }
+
         sTimer.schedule(new TimerTask() {
             @Override
             public void run() {

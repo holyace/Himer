@@ -9,6 +9,7 @@ import com.himer.android.databinding.IEventHandler;
 import com.himer.android.modle.SearchSound;
 import com.himer.android.player.Audio;
 import com.himer.android.player.PlayerManager;
+import com.himer.android.util.AudioConverter;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -34,8 +35,7 @@ public class PlaySoundHandler implements
 //            e.printStackTrace();
 //        }
 
-        final Audio audio = new Audio();
-        audio.setPath(sound.getPlay_path_aac_v224());
+        final Audio audio = AudioConverter.convert(sound);
         PlayerManager player = PlayerManager.getInstance(view.getContext());
         player.setAudioList(new ArrayList<Audio>(){{add(audio);}});
         player.playIndex(0);

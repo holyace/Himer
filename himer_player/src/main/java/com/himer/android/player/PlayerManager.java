@@ -8,6 +8,7 @@ import android.os.IBinder;
 import android.os.RemoteException;
 
 import com.himer.android.player.constants.PlayerConstants;
+import com.himer.android.player.impl.NotificationHandler;
 import com.himer.android.player.util.CollectionUtil;
 
 import java.util.ArrayList;
@@ -32,6 +33,8 @@ public class PlayerManager implements PlayerConstants, IPlayer {
     private List<IPlayerListener> mPlayerListenerList;
 
     private List<Audio> mPlayList;
+
+    private NotificationHandler mNotificationHandler;
 
     private PlayerListener mPlayerListener = new PlayerListener() {
 
@@ -141,9 +144,12 @@ public class PlayerManager implements PlayerConstants, IPlayer {
 
     private PlayerManager(Context appCtx) {
         mAppCtx = appCtx.getApplicationContext();
-        mServiceIntent = new Intent(SERVICE_ACTION);
+        mServiceIntent = new Intent(ACTION_SERVICE);
         mServiceIntent.setPackage(appCtx.getPackageName());
         mPlayerListenerList = new ArrayList<>();
+
+        mNotificationHandler = new NotificationHandler(mAppCtx);
+        addPlayerListener(mNotificationHandler);
 
         startServiceInternal();
 

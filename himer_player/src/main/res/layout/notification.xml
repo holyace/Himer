@@ -36,8 +36,8 @@
         android:text="Hello,嗨马"
         android:textSize="15sp"
         android:textColor="#000000"
-        android:maxLines="1"
-        android:ellipsize="end"
+        android:singleLine="true"
+        android:ellipsize="marquee"
         />
 
     <RelativeLayout

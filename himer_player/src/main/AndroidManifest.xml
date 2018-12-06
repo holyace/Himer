@@ -8,6 +8,10 @@
 
             <intent-filter>
                 <action android:name="com.himer.android.action.PlayerService"/>
+                <action android:name="com.himer.android.action.ACTION_PLAY_OR_PAUSE"/>
+                <action android:name="com.himer.android.action.ACTION_NEXT"/>
+                <action android:name="com.himer.android.action.ACTION_PREVIOUS"/>
+                <action android:name="com.himer.android.action.ACTION_CLOSE"/>
             </intent-filter>
         </service>
     </application>

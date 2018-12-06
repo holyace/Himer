@@ -90,6 +90,8 @@ public class PlayerStub extends Player.Stub implements
     @Override
     public void setAudioList(List<Audio> audioList) throws RemoteException {
         mAudioList = audioList;
+        mCurrentAudio = null;
+        mCurrentIndex = -1;
     }
 
     @Override
@@ -120,6 +122,20 @@ public class PlayerStub extends Player.Stub implements
                 PlayerState.COMPLETED == state) {
             mPlayer.stop();
             handlePlayStop();
+        }
+        mCurrentAudio = null;
+        mCurrentIndex = -1;
+    }
+
+    public void playOrPause() {
+        PlayerState state = mPlayer.getPlayerState();
+        if (PlayerState.STARTED == state) {
+            pause();
+        }
+        else if (PlayerState.PAUSED == state ||
+                PlayerState.PREPARED == state ||
+                PlayerState.COMPLETED == state) {
+            play();
         }
     }
 
@@ -236,6 +252,13 @@ public class PlayerStub extends Player.Stub implements
                 e.printStackTrace();
             }
         }
+    }
+
+    public PlayerState getPlayerState() {
+        if (mPlayer != null) {
+            return mPlayer.getPlayerState();
+        }
+        return null;
     }
 
     @Override

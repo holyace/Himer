@@ -12,9 +12,9 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+import com.himer.android.player.R;
 import com.himer.android.player.constants.PlayerConstants;
 import com.himer.android.player.impl.PlayerStub;
-import com.himer.android.player.R;
 
 /**
  * No comment for you. yeah, come on, bite me~
@@ -24,14 +24,11 @@ import com.himer.android.player.R;
 public class PlayerService extends Service implements PlayerConstants {
 
     private static final String TAG = PlayerService.class.getSimpleName();
-    private static final String CHANNEL_ID = "com.himer.android";
-    private static final String CHANNEL_NAME = "player";
 
     private PlayerStub mPlayer;
     private Context mContext;
-    private RemoteViews mNotificationContent;
 
-    private int mNotificationId;
+    private boolean mForeground;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -49,10 +46,21 @@ public class PlayerService extends Service implements PlayerConstants {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (enableForeground()) {
+        if (!mForeground && enableForeground()) {
             startForeground(PlayerConstants.NOTIFCATION_ID, getNotification());
+            mForeground = true;
         }
         Log.e(TAG, "onStartCommand ");
+        String action = intent.getAction();
+        if (PlayerConstants.ACTION_PLAY_OR_PAUSE.equals(action)) {
+            handlePlayOrPause();
+        }
+        else if (PlayerConstants.ACTION_NEXT.equals(action)) {
+            handlePlayNext();
+        }
+        else if (PlayerConstants.ACTION_PREVIOUS.equals(action)) {
+            handlePlayPrevious();
+        }
         return START_STICKY;
     }
 
@@ -78,21 +86,35 @@ public class PlayerService extends Service implements PlayerConstants {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
                     CHANNEL_ID, CHANNEL_NAME,
-                    NotificationManager.IMPORTANCE_HIGH);
+                    NotificationManager.IMPORTANCE_LOW);
+            channel.setSound(null, null);
             manager.createNotificationChannel(channel);
 
             notification = new Notification.Builder(this, channel.getId())
                     .setContentTitle("嗨马")
                     .setSmallIcon(R.drawable.ic_launcher)
+                    .setOngoing(true)
                     .build();
         } else {
             notification = new NotificationCompat.Builder(this)
                     .setContentTitle("嗨马")
                     .setSmallIcon(R.drawable.ic_launcher)
+                    .setOngoing(true)
                     .build();
         }
 
         return notification;
     }
 
+    private void handlePlayOrPause() {
+        mPlayer.playOrPause();
+    }
+
+    private void handlePlayNext() {
+        mPlayer.next();
+    }
+
+    private void handlePlayPrevious() {
+        mPlayer.previous();
+    }
 }

@@ -7,8 +7,19 @@ package com.himer.android.player.constants;
  */
 public interface PlayerConstants {
 
-    String SERVICE_ACTION = "com.himer.android.action.PlayerService";
+    String ACTION_SERVICE = "com.himer.android.action.PlayerService";
+    String ACTION_PLAY_OR_PAUSE = "com.himer.android.action.ACTION_PLAY_OR_PAUSE";
+    String ACTION_NEXT = "com.himer.android.action.ACTION_NEXT";
+    String ACTION_PREVIOUS = "com.himer.android.action.ACTION_PREVIOUS";
+    String ACTION_CLOSE = "com.himer.android.action.ACTION_CLOSE";
     String SERVICE_PACKAGE = "com.himer.android.player";
     int NOTIFCATION_ID = 12313134;
-    String KEY_NOTIFCATION_ID = "notification_id";
+
+    String CHANNEL_ID = "com.himer.android";
+    String CHANNEL_NAME = "player";
+
+    int REQUEST_CODE_PLAY_OR_PAUSE = 0X00009;
+    int REQUEST_CODE_PLAY_NEXT = REQUEST_CODE_PLAY_OR_PAUSE + 1;
+    int REQUEST_CODE_PLAY_PREVIOUS = REQUEST_CODE_PLAY_OR_PAUSE + 2;
+    int REQUEST_CODE_CLOSE = REQUEST_CODE_PLAY_OR_PAUSE + 3;
 }

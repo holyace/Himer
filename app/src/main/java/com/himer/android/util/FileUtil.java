@@ -23,10 +23,8 @@ import java.io.File;
  * Reason:	 TODO ADD REASON
  *
  * @author chadwii
- * @version
- * @since Ver 1.1
  * @Date 2014-2-19		下午3:51:27
- *
+ * @since Ver 1.1
  */
 public class FileUtil {
 

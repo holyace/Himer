@@ -26,8 +26,7 @@ public abstract class BaseMainActivity extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mSavedInstance = savedInstanceState;
             checkPermission(getCheckPermissions());
-        }
-        else {
+        } else {
             delayOnCreate(savedInstanceState);
         }
     }
@@ -65,7 +64,6 @@ public abstract class BaseMainActivity extends BaseActivity {
     }
 
     /**
-     *
      * @param permission
      * @return true the app go on when permission deny, false otherwise
      */

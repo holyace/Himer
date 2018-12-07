@@ -333,7 +333,7 @@ public class PlayerManager implements PlayerConstants, IPlayer {
 
     public Audio getAudio(int index) {
         if (CollectionUtil.isIndexInRange(mPlayList, index)) {
-           return mPlayList.get(index);
+            return mPlayList.get(index);
         }
         return null;
     }

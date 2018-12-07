@@ -1,5 +1,7 @@
 package com.himer.android.common.concurrent;
 
+import com.himer.android.common.util.HLog;
+
 /**
  * No comment for you. yeah, come on, bite me~
  * <p>
@@ -7,13 +9,15 @@ package com.himer.android.common.concurrent;
  */
 public abstract class SafeJob extends Job {
 
+    private static final String TAG = SafeJob.class.getSimpleName();
+
     @Override
     public void run() {
         super.run();
         try {
             safeRun();
         } catch (Exception e) {
-            e.printStackTrace();
+            HLog.exception(TAG, e);
         }
     }
 

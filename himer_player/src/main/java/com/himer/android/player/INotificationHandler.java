@@ -1,8 +1,5 @@
 package com.himer.android.player;
 
-import android.app.Notification;
-import android.widget.RemoteViews;
-
 import com.himer.android.player.constants.PlayerState;
 
 /**

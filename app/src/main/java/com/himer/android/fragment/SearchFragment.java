@@ -36,11 +36,10 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.himer.android.common.widget.HMImageView;
 import com.himer.android.AppConstant;
 import com.himer.android.BR;
-import com.himer.android.MainTabActivity;
 import com.himer.android.R;
+import com.himer.android.common.widget.HMImageView;
 import com.himer.android.databinding.BindingAdapter;
 import com.himer.android.databinding.BindingListAdapter;
 import com.himer.android.download.DownloadManager;
@@ -61,10 +60,8 @@ import cz.msebera.android.httpclient.Header;
  * Reason:	 TODO ADD REASON
  *
  * @author chadwii
- * @version
- * @since Ver 1.1
  * @Date 2014-2-18 4:28:40
- *
+ * @since Ver 1.1
  */
 public class SearchFragment extends Fragment {
 
@@ -79,7 +76,7 @@ public class SearchFragment extends Fragment {
     private int mPageSize = 15;
     private ArrayList<SearchSound> mSearchResult =
             new ArrayList<SearchSound>();
-//    private SearchAdapter mAdapter;
+    //    private SearchAdapter mAdapter;
     private BindingListAdapter<SearchSound> mBindingListAdapter;
     private boolean isFirst = true;
 
@@ -102,7 +99,7 @@ public class SearchFragment extends Fragment {
         mBindingListAdapter = new BindingListAdapter<>(
                 R.layout.item_sound_info);
         mBindingListAdapter.setVariables(
-                new HashMap<Integer, Object>(){{
+                new HashMap<Integer, Object>() {{
                     put(BR.mode, 0);
                     put(BR.event, new BindingAdapter(mBindingListAdapter));
                 }});
@@ -343,11 +340,9 @@ public class SearchFragment extends Fragment {
             holder.download.setTag(sound);
             if (!TextUtils.isEmpty(sound.cover_path)) {
                 holder.icon.setImageURI(Uri.parse(sound.cover_path));
-            }
-            else if (!TextUtils.isEmpty(sound.album_cover_path)) {
+            } else if (!TextUtils.isEmpty(sound.album_cover_path)) {
                 holder.icon.setImageURI(Uri.parse(sound.album_cover_path));
-            }
-            else if (!TextUtils.isEmpty(sound.smallLogo)) {
+            } else if (!TextUtils.isEmpty(sound.smallLogo)) {
                 holder.icon.setImageURI(Uri.parse(sound.smallLogo));
             }
             holder.title.setText(sound.title);

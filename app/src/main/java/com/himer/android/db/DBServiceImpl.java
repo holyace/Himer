@@ -10,10 +10,7 @@ import com.himer.android.greendao.DaoMaster;
 import com.himer.android.greendao.DaoSession;
 
 import org.greenrobot.greendao.AbstractDao;
-import org.greenrobot.greendao.annotation.Id;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
@@ -60,9 +57,9 @@ public class DBServiceImpl implements IDBService {
         mDaoSession = null;
     }
 
-    private <T> AbstractDao<T, Long> getDao(Class<T> entryClass) {
+    private <ENTRY> AbstractDao<ENTRY, Long> getDao(Class<ENTRY> entryClass) {
         try {
-            return (AbstractDao<T, Long>) mDaoSession.getDao(entryClass);
+            return (AbstractDao<ENTRY, Long>) mDaoSession.getDao(entryClass);
         } catch (Exception e) {
             HLog.exception(TAG, e);
         }
@@ -71,12 +68,11 @@ public class DBServiceImpl implements IDBService {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T> long insert(T object) {
+    public <ENTRY> long insert(ENTRY object) {
         if (object == null) {
             return -1;
         }
-        AbstractDao<T, Long> dao = getDao((Class<T>) object.getClass());
-//        AbstractDao<T, Long> dao = null;
+        AbstractDao<ENTRY, Long> dao = getDao((Class<ENTRY>) object.getClass());
         if (dao == null) {
             HLog.e(TAG, "insert get dao fail", object.toString());
             return -1;
@@ -91,14 +87,13 @@ public class DBServiceImpl implements IDBService {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T> void insertAll(List<T> list) {
+    public <ENTRY> void insertAll(List<ENTRY> list) {
         if (list == null || list.size() == 0) {
             HLog.e(TAG, "insertAll empty list");
             return;
         }
-        Class<T> entryClass = (Class<T>) list.get(0).getClass();
-//        Class<T> entryClass = null;
-        AbstractDao<T, Long> dao = getDao(entryClass);
+        Class<ENTRY> entryClass = (Class<ENTRY>) list.get(0).getClass();
+        AbstractDao<ENTRY, Long> dao = getDao(entryClass);
         if (dao == null) {
             HLog.e(TAG, "insertAll get dao fail", entryClass);
             return;
@@ -108,8 +103,8 @@ public class DBServiceImpl implements IDBService {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T> long insertOrUpdate(T object) {
-        AbstractDao<T, Long> dao = getDao((Class<T>) object.getClass());
+    public <ENTRY> long insertOrUpdate(ENTRY object) {
+        AbstractDao<ENTRY, Long> dao = getDao((Class<ENTRY>) object.getClass());
 
         if (dao == null) {
             return -1;
@@ -119,9 +114,10 @@ public class DBServiceImpl implements IDBService {
     }
 
     @Override
-    public <T> boolean delete(T object) {
-        Class<? extends Object> entryClass = object.getClass();
-        AbstractDao dao = getDao(entryClass);
+    @SuppressWarnings("unchecked")
+    public <ENTRY> boolean delete(ENTRY object) {
+        Class<ENTRY> entryClass = (Class<ENTRY>) object.getClass();
+        AbstractDao<ENTRY, Long> dao = getDao(entryClass);
         if (dao == null) {
             HLog.e(TAG, "delete get dao fail", entryClass);
             return false;
@@ -136,23 +132,23 @@ public class DBServiceImpl implements IDBService {
     }
 
     @Override
-    public <T> boolean update(T object) {
+    public <ENTRY> boolean update(ENTRY object) {
         return false;
     }
 
     @Override
-    public <T> boolean deleteById(Class<T> classType, long id) {
+    public <ENTRY> boolean deleteById(Class<ENTRY> classType, long id) {
         return false;
     }
 
     @Override
-    public <T> boolean deleteAll(Class<T> classType) {
+    public <ENTRY> boolean deleteAll(Class<ENTRY> classType) {
         return false;
     }
 
     @Override
-    public <T> T queryById(Class<T> classType, long id) {
-        AbstractDao<T, Long> dao = getDao(classType);
+    public <ENTRY> ENTRY queryById(Class<ENTRY> classType, long id) {
+        AbstractDao<ENTRY, Long> dao = getDao(classType);
         if (dao == null) {
             return null;
         }
@@ -160,14 +156,14 @@ public class DBServiceImpl implements IDBService {
     }
 
     @Override
-    public <T> List<T> query(Class<T> classType, String where, String... selectionArg) {
+    public <ENTRY> List<ENTRY> query(Class<ENTRY> classType, String where, String... selectionArg) {
         return null;
     }
 
     @Override
-    public <T> List<T> queryAll(Class<T> classType) {
+    public <ENTRY> List<ENTRY> queryAll(Class<ENTRY> classType) {
 
-        AbstractDao dao = getDao(classType);
+        AbstractDao<ENTRY, Long> dao = getDao(classType);
         if (dao == null) {
             HLog.e(TAG, "queryAll get dao fail", classType);
             return null;

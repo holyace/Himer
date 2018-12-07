@@ -1,13 +1,9 @@
 package com.himer.android.databinding;
 
-import android.support.v4.util.LruCache;
-import android.support.v4.util.Pair;
 import android.text.TextUtils;
 import android.view.View;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

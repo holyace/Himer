@@ -80,8 +80,7 @@ public class HMExecutor {
     public static void runUiThread(Job job, long delay) {
         if (delay <= 0) {
             mUiHandler.post(job);
-        }
-        else {
+        } else {
             mUiHandler.postDelayed(job, delay);
         }
     }

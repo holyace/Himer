@@ -1,9 +1,9 @@
 package com.himer.android.common.service.shell;
 
 import android.graphics.Bitmap;
+import android.widget.ImageView;
 
 import com.himer.android.common.service.IService;
-import com.himer.android.common.widget.HMImageView;
 
 /**
  * No comment for you. yeah, come on, bite me~
@@ -12,7 +12,7 @@ import com.himer.android.common.widget.HMImageView;
  */
 public interface IImageService extends IService {
 
-    void bindImage(HMImageView view, String url);
+    void bindImage(ImageView view, String url);
 
     void asyncDownload(String url, ImageListener listener);
 

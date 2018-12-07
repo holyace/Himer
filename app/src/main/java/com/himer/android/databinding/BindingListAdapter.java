@@ -60,7 +60,7 @@ public class BindingListAdapter<T> extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewDataBinding binding;
         if (convertView == null) {
-            binding =  DataBindingUtil.inflate(
+            binding = DataBindingUtil.inflate(
                     LayoutInflater.from(parent.getContext()),
                     mItemLayoutId, parent, false);
             if (mVariables != null) {
@@ -68,8 +68,7 @@ public class BindingListAdapter<T> extends BaseAdapter {
                     binding.setVariable(entry.getKey(), entry.getValue());
                 }
             }
-        }
-        else {
+        } else {
             binding = DataBindingUtil.getBinding(convertView);
         }
         binding.setVariable(BR.sound, getItem(position));

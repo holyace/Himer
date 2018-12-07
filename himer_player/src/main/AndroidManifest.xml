@@ -1,17 +1,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.himer.android.player" >
+    package="com.himer.android.player">
 
     <application>
-        <service android:name=".service.PlayerService"
-            android:exported="true"
-            >
+        <service
+            android:name=".service.PlayerService"
+            android:exported="true">
 
             <intent-filter>
-                <action android:name="com.himer.android.action.PlayerService"/>
-                <action android:name="com.himer.android.action.ACTION_PLAY_OR_PAUSE"/>
-                <action android:name="com.himer.android.action.ACTION_NEXT"/>
-                <action android:name="com.himer.android.action.ACTION_PREVIOUS"/>
-                <action android:name="com.himer.android.action.ACTION_CLOSE"/>
+                <action android:name="com.himer.android.action.PlayerService" />
+                <action android:name="com.himer.android.action.ACTION_PLAY_OR_PAUSE" />
+                <action android:name="com.himer.android.action.ACTION_NEXT" />
+                <action android:name="com.himer.android.action.ACTION_PREVIOUS" />
+                <action android:name="com.himer.android.action.ACTION_CLOSE" />
             </intent-filter>
         </service>
     </application>

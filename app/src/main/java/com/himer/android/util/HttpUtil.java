@@ -15,9 +15,9 @@ package com.himer.android.util;
 
 import android.util.Log;
 
+import com.himer.android.net.HttpCallback;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
-import com.himer.android.net.HttpCallback;
 
 /**
  * ClassName:HttpUtil
@@ -25,10 +25,8 @@ import com.himer.android.net.HttpCallback;
  * Reason:	 TODO ADD REASON
  *
  * @author chadwii
- * @version
- * @since Ver 1.1
  * @Date 2014-2-19		上午10:55:14
- *
+ * @since Ver 1.1
  */
 public class HttpUtil {
 

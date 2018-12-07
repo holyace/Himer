@@ -9,7 +9,7 @@
  * Copyright (c) 2014, TNT All Rights Reserved.
  */
 
-package com.himer.android.download;
+package com.himer.android.downloader;
 
 import android.annotation.SuppressLint;
 import android.net.Uri;

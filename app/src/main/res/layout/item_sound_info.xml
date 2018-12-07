@@ -2,18 +2,20 @@
 <layout>
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="sound"
             type="com.himer.android.modle.SearchSound" />
-        
+
         <variable
             name="event"
-            type="com.himer.android.databinding.BindingAdapter"/>
+            type="com.himer.android.databinding.BindingAdapter" />
 
         <variable
             name="mode"
-            type="Integer"/>
+            type="Integer" />
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -26,8 +28,7 @@
         android:paddingRight="5dp"
         android:paddingTop="5dp"
         android:tag="@{sound}"
-        android:onClick='@{(view)->event.onClick(view, "play")}'
-        >
+        android:onClick='@{(view)->event.onClick(view, "play")}'>
 
         <com.himer.android.common.widget.HMImageView
             android:id="@+id/sound_icon"
@@ -38,8 +39,7 @@
             fresco:placeholderImage="@drawable/sound"
             android:src="@{sound.cover_path}"
             android:tag="@{sound}"
-            android:onClick='@{(view)->event.onClick(view, "viewImage")}'
-            />
+            android:onClick='@{(view)->event.onClick(view, "viewImage")}' />
 
         <ImageView
             android:id="@+id/sound_download"
@@ -50,8 +50,7 @@
             android:layout_centerVertical="true"
             android:src="@{mode == 1 ? @drawable/delete : @drawable/download}"
             android:tag="@{sound}"
-            android:onClick='@{(view)->event.onClick(view, mode == 1 ? "delete" : "download")}'
-            />
+            android:onClick='@{(view)->event.onClick(view, mode == 1 ? "delete" : "download")}' />
 
 
         <TextView
@@ -68,8 +67,7 @@
             android:textColor="#ffffff"
             android:textSize="14sp"
             tools:text="中国好声音"
-            android:text="@{sound.title}"
-            />
+            android:text="@{sound.title}" />
 
         <LinearLayout
             android:id="@+id/album_info_bar"
@@ -88,8 +86,7 @@
                 android:textColor="#999999"
                 android:textSize="12sp"
                 tools:text="专辑：好声音"
-                android:text="@{sound.album_title}"
-                />
+                android:text="@{sound.album_title}" />
 
             <TextView
                 android:id="@+id/sound_tags"
@@ -103,8 +100,7 @@
                 android:visibility="@{sound.tags != null ? View.VISIBLE : View.GONE}"
                 tools:text="#热歌榜"
                 android:maxLines="1"
-                android:text='@{"#" + sound.tags}'
-                />
+                android:text='@{"#" + sound.tags}' />
         </LinearLayout>
 
         <LinearLayout
@@ -129,8 +125,7 @@
                 fresco:roundTopRight="true"
                 fresco:roundedCornerRadius="45dp"
                 tools:src="@drawable/sound"
-                android:src="@{sound.smallLogo}"
-                />
+                android:src="@{sound.smallLogo}" />
 
             <TextView
                 android:id="@+id/user_nick"
@@ -139,8 +134,7 @@
                 android:textColor="#999999"
                 android:textSize="12sp"
                 tools:text="哈利波特"
-                android:text="@{sound.nickname}"
-                />
+                android:text="@{sound.nickname}" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -154,8 +148,7 @@
                 android:gravity="center_vertical"
                 android:includeFontPadding="false"
                 android:maxLines="1"
-                android:text='@{String.valueOf(sound.count_play > 10000 ? (sound.count_play / 10000 + "万") : sound.count_play)}'
-                />
+                android:text='@{String.valueOf(sound.count_play > 10000 ? (sound.count_play / 10000 + "万") : sound.count_play)}' />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -169,8 +162,7 @@
                 android:gravity="center_vertical"
                 android:includeFontPadding="false"
                 android:maxLines="1"
-                android:text='@{String.valueOf(sound.count_like > 10000 ? (sound.count_like / 1000 + "万") : sound.count_like)}'
-                />
+                android:text='@{String.valueOf(sound.count_like > 10000 ? (sound.count_like / 1000 + "万") : sound.count_like)}' />
         </LinearLayout>
 
     </RelativeLayout>

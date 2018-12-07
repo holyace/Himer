@@ -30,11 +30,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.himer.android.R;
 import com.himer.android.common.concurrent.HMExecutor;
 import com.himer.android.common.concurrent.SafeJob;
 import com.himer.android.common.service.ServiceManager;
 import com.himer.android.common.service.shell.IDBService;
-import com.himer.android.R;
 import com.himer.android.common.util.HLog;
 import com.himer.android.download.DownloadManager;
 import com.himer.android.download.DownloadTask;
@@ -49,10 +49,8 @@ import java.util.ArrayList;
  * Reason:	 TODO ADD REASON
  *
  * @author chadwii
- * @version
- * @since Ver 1.1
  * @Date 2014-2-18 4:29:01
- *
+ * @since Ver 1.1
  */
 public class DownloadFragment extends Fragment {
     private static final String TAG = DownloadFragment.class.getSimpleName();

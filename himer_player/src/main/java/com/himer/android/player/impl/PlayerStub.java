@@ -20,8 +20,8 @@ import java.util.List;
  * Created by chad on 2018/11/30.
  */
 public class PlayerStub extends Player.Stub implements
-        MediaPlayer.OnBufferingUpdateListener ,
-        MediaPlayer.OnSeekCompleteListener{
+        MediaPlayer.OnBufferingUpdateListener,
+        MediaPlayer.OnSeekCompleteListener {
 
     private static final int UPDATE_DURATION = 1 * 1000; //1s
 
@@ -131,8 +131,7 @@ public class PlayerStub extends Player.Stub implements
         PlayerState state = mPlayer.getPlayerState();
         if (PlayerState.STARTED == state) {
             pause();
-        }
-        else if (PlayerState.PAUSED == state ||
+        } else if (PlayerState.PAUSED == state ||
                 PlayerState.PREPARED == state ||
                 PlayerState.COMPLETED == state) {
             play();

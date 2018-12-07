@@ -15,7 +15,7 @@ public class EventFactory implements EventConstants {
     public static IEventHandler getEventHandler(String type) {
         IEventHandler handler = null;
         switch (type) {
-            case EVENT_PLAY :
+            case EVENT_PLAY:
                 handler = new PlaySoundHandler();
                 break;
 

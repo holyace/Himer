@@ -11,24 +11,24 @@ import java.util.List;
  */
 public interface IDBService extends IService {
 
-    <T> long insert(T object);
+    <ENTRY> long insert(ENTRY object);
 
-    <T> void insertAll(List<T> list);
+    <ENTRY> void insertAll(List<ENTRY> list);
 
-    <T> long insertOrUpdate(T object);
+    <ENTRY> long insertOrUpdate(ENTRY object);
 
-    <T> boolean delete(T object);
+    <ENTRY> boolean delete(ENTRY object);
 
-    <T> boolean update(T object);
+    <ENTRY> boolean update(ENTRY object);
 
-    <T> boolean deleteById(Class<T> classType, long id);
+    <ENTRY> boolean deleteById(Class<ENTRY> classType, long id);
 
-    <T> boolean deleteAll(Class<T> classType);
+    <ENTRY> boolean deleteAll(Class<ENTRY> classType);
 
-    <T> T queryById(Class<T> classType, long id);
+    <ENTRY> ENTRY queryById(Class<ENTRY> classType, long id);
 
-    <T> List<T> query(Class<T> classType, String where, String... selectionArg);
+    <ENTRY> List<ENTRY> query(Class<ENTRY> classType, String where, String... selectionArg);
 
-    <T> List<T> queryAll(Class<T> classType);
+    <ENTRY> List<ENTRY> queryAll(Class<ENTRY> classType);
 
 }

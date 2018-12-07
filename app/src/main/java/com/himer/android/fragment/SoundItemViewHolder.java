@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.himer.android.common.widget.HMImageView;
 import com.himer.android.R;
+import com.himer.android.common.widget.HMImageView;
 
 import java.util.Map;
 
@@ -29,7 +29,6 @@ public class SoundItemViewHolder extends BaseItemViewHolder {
     public View createView(Context context, ViewGroup parent) {
         View view = LayoutInflater.from(context).
                 inflate(R.layout.item_sound_info, parent, false);
-
 
 
         return view;

@@ -1,7 +1,5 @@
 package com.himer.android.databinding.event;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.view.View;
 
 import com.himer.android.databinding.BindingListAdapter;
@@ -37,7 +35,9 @@ public class PlaySoundHandler implements
 
         final Audio audio = AudioConverter.convert(sound);
         PlayerManager player = PlayerManager.getInstance(view.getContext());
-        player.setAudioList(new ArrayList<Audio>(){{add(audio);}});
+        player.setAudioList(new ArrayList<Audio>() {{
+            add(audio);
+        }});
         player.playIndex(0);
     }
 }

@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
-    >
+    android:gravity="center">
 
     <ImageView
         android:id="@+id/tab_icon"
@@ -21,6 +20,5 @@
         android:layout_height="wrap_content"
         android:drawablePadding="5dp"
         tools:text="ABC"
-        android:textSize="14sp"
-        />
+        android:textSize="14sp" />
 </LinearLayout>

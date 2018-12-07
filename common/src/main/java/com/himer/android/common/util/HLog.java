@@ -26,7 +26,7 @@ public class HLog {
         return sb.toString();
     }
 
-    private static String getLog(Exception e) {
+    private static String getLog(Throwable e) {
         return e.getMessage();
     }
 
@@ -54,7 +54,7 @@ public class HLog {
         }
     }
 
-    public static void exception(String tag, Exception e) {
+    public static void exception(String tag, Throwable e) {
         if (isEnable()) {
             Log.e(tag, getLog(e));
         }

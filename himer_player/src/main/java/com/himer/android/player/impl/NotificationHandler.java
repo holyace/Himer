@@ -6,10 +6,14 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
+import com.himer.android.common.service.ServiceManager;
+import com.himer.android.common.service.shell.IImageService;
+import com.himer.android.common.service.shell.ImageListener;
 import com.himer.android.player.Audio;
 import com.himer.android.player.INotificationHandler;
 import com.himer.android.player.IPlayerListener;
@@ -24,7 +28,7 @@ import com.himer.android.player.constants.PlayerState;
  * Created by chad on 2018/12/5.
  */
 public class NotificationHandler implements INotificationHandler,
-        PlayerConstants , IPlayerListener {
+        PlayerConstants, IPlayerListener {
 
     private Context mContext;
     private Notification mNotification;
@@ -51,13 +55,25 @@ public class NotificationHandler implements INotificationHandler,
             initNotification();
         }
 
-        RemoteViews rv = mNotification.contentView;
         if (audio != null) {
-            rv.setTextViewText(R.id.title, audio.getTitle());
+            mRemoteViews.setTextViewText(R.id.title, audio.getTitle());
+            IImageService is = ServiceManager.getService(IImageService.class);
+            is.asyncDownload(audio.getCoverPath(), new ImageListener() {
+                @Override
+                public void onSuccess(Bitmap bitmap) {
+                    mRemoteViews.setImageViewBitmap(R.id.icon, bitmap);
+                    mNotificationManager.notify(NOTIFCATION_ID, mNotification);
+                }
+
+                @Override
+                public void onFaile(String errorCode, String errorMessage) {
+
+                }
+            });
         }
 
         if (state != null) {
-            rv.setImageViewResource(R.id.play_or_pause, getPlayStateIcon(state));
+            mRemoteViews.setImageViewResource(R.id.play_or_pause, getPlayStateIcon(state));
         }
 
         mNotificationManager.notify(NOTIFCATION_ID, mNotification);
@@ -66,8 +82,7 @@ public class NotificationHandler implements INotificationHandler,
     private int getPlayStateIcon(PlayerState state) {
         if (PlayerState.STARTED == state) {
             return R.drawable.pause;
-        }
-        else {
+        } else {
             return R.drawable.play;
         }
 

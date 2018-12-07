@@ -56,7 +56,7 @@ public class LocalFileFragment extends Fragment {
     private Activity mContext;
     private View mContent;
     private ListView mListView;
-//    private DownloadAdapter mAdapter;
+    //    private DownloadAdapter mAdapter;
     private BindingListAdapter<SearchSound> mListAdapter;
 
     private ArrayList<SearchSound> mDownlaoded =
@@ -164,10 +164,10 @@ public class LocalFileFragment extends Fragment {
 //        mListView.setAdapter(mAdapter);
         mListAdapter = new BindingListAdapter<>(
                 R.layout.item_sound_info);
-        mListAdapter.setVariables(new HashMap<Integer, Object>(){{
-                    put(BR.mode, 1);
-                    put(BR.event, new BindingAdapter(mListAdapter));
-                }});
+        mListAdapter.setVariables(new HashMap<Integer, Object>() {{
+            put(BR.mode, 1);
+            put(BR.event, new BindingAdapter(mListAdapter));
+        }});
         mListView.setAdapter(mListAdapter);
     }
 

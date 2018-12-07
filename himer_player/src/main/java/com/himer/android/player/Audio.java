@@ -7,7 +7,7 @@ import android.os.Parcel;
  * <p>
  * Created by chad on 2018/11/30.
  */
-public class Audio  implements IAudio {
+public class Audio implements IAudio {
 
     private String path;
     private String title;

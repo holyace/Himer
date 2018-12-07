@@ -4,7 +4,6 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.himer.android.common.util.HLog;
-import com.himer.android.databinding.event.PreviewImageHandler;
 import com.himer.android.modle.SearchSound;
 
 import java.util.HashMap;
@@ -38,7 +37,9 @@ public class BindingAdapter<T> implements EventConstants {
         IEventHandler handler = EventFactory.getEventHandler(type);
         if (handler != null) {
             handler.handleEvent(mContext, view,
-                    new HashMap<String, Object>() {{put("sound", tag);}});
+                    new HashMap<String, Object>() {{
+                        put("sound", tag);
+                    }});
         }
     }
 

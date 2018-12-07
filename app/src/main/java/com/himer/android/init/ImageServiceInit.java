@@ -1,7 +1,5 @@
 package com.himer.android.init;
 
-import com.himer.android.Global;
-
 /**
  * No comment for you. yeah, come on, bite me~
  * <p>

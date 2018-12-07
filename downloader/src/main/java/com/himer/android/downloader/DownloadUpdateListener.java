@@ -11,7 +11,7 @@
  * Copyright (c) 2014, chadwii All Rights Reserved.
  */
 
-package com.himer.android.download;
+package com.himer.android.downloader;
 
 /**
  * ClassName:DownloadUpdateListener

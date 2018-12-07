@@ -14,7 +14,7 @@ import java.io.IOException;
 public class MiniPlayer extends MediaPlayer implements
         MediaPlayer.OnPreparedListener,
         MediaPlayer.OnErrorListener,
-        MediaPlayer.OnCompletionListener{
+        MediaPlayer.OnCompletionListener {
 
     private PlayerState mState;
 

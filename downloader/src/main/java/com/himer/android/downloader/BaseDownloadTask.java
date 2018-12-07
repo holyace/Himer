@@ -11,11 +11,9 @@
  * Copyright (c) 2014, TNT All Rights Reserved.
  */
 
-package com.himer.android.download;
+package com.himer.android.downloader;
 
 import android.text.TextUtils;
-
-import com.himer.android.util.FileUtil;
 
 import java.io.File;
 import java.io.InputStream;
@@ -24,14 +22,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * ClassName:BaseDownloadTask
- * Function: TODO ADD FUNCTION
- * Reason:	 TODO ADD REASON
  *
- * @author chadwii
- * @Date 2014-2-20		下午5:03:08
- * @see
- * @since Ver 1.1
  */
 public abstract class BaseDownloadTask implements Runnable {
     public static final int FAILED = -1;
@@ -87,7 +78,8 @@ public abstract class BaseDownloadTask implements Runnable {
     }
 
     private boolean makeDownloadDir() {
-        return FileUtil.makeDir(getFilePath());
+//        return FileUtil.makeDir(getFilePath());
+        return false;
     }
 
     void stopExecute() {

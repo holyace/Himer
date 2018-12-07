@@ -21,10 +21,8 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
  * Reason:	 TODO ADD REASON
  *
  * @author chadwii
- * @version
- * @since Ver 1.1
  * @Date 2014-2-19		上午11:06:42
- *
+ * @since Ver 1.1
  */
 public abstract class HttpCallback extends AsyncHttpResponseHandler {
 

@@ -54,11 +54,9 @@ public class PlayerService extends Service implements PlayerConstants {
         String action = intent.getAction();
         if (PlayerConstants.ACTION_PLAY_OR_PAUSE.equals(action)) {
             handlePlayOrPause();
-        }
-        else if (PlayerConstants.ACTION_NEXT.equals(action)) {
+        } else if (PlayerConstants.ACTION_NEXT.equals(action)) {
             handlePlayNext();
-        }
-        else if (PlayerConstants.ACTION_PREVIOUS.equals(action)) {
+        } else if (PlayerConstants.ACTION_PREVIOUS.equals(action)) {
             handlePlayPrevious();
         }
         return START_STICKY;
@@ -91,13 +89,13 @@ public class PlayerService extends Service implements PlayerConstants {
             manager.createNotificationChannel(channel);
 
             notification = new Notification.Builder(this, channel.getId())
-                    .setContentTitle("嗨马")
+                    .setCustomContentView(new RemoteViews(mContext.getPackageName(), R.layout.notification))
                     .setSmallIcon(R.drawable.ic_launcher)
                     .setOngoing(true)
                     .build();
         } else {
             notification = new NotificationCompat.Builder(this)
-                    .setContentTitle("嗨马")
+                    .setCustomContentView(new RemoteViews(mContext.getPackageName(), R.layout.notification))
                     .setSmallIcon(R.drawable.ic_launcher)
                     .setOngoing(true)
                     .build();

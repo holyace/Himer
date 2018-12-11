@@ -7,9 +7,11 @@ import com.himer.android.databinding.IEventHandler;
 import com.himer.android.modle.SearchSound;
 import com.himer.android.player.Audio;
 import com.himer.android.player.PlayerManager;
+import com.himer.android.player.util.CollectionUtil;
 import com.himer.android.util.AudioConverter;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,11 +35,15 @@ public class PlaySoundHandler implements
 //            e.printStackTrace();
 //        }
 
-        final Audio audio = AudioConverter.convert(sound);
+        List<SearchSound> list = context.getData();
+        if (CollectionUtil.isEmpty(list) || sound == null) {
+            return;
+        }
+
+        int index = list.indexOf(sound);
+        List<Audio> playList = AudioConverter.convert(list);
         PlayerManager player = PlayerManager.getInstance(view.getContext());
-        player.setAudioList(new ArrayList<Audio>() {{
-            add(audio);
-        }});
-        player.playIndex(0);
+        player.setAudioList(playList);
+        player.playIndex(index);
     }
 }

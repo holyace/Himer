@@ -75,7 +75,7 @@ public class PlayerStub extends Player.Stub implements
         Audio audio = mAudioList.get(index);
         mCurrentAudio = audio;
         try {
-            stop();
+            pause();
             mPlayer.reset();
             mPlayer.setDataSource(audio.getPath());
             handlePlayChange(index);

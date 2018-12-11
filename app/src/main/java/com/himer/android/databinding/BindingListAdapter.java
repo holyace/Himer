@@ -80,4 +80,8 @@ public class BindingListAdapter<T> extends BaseAdapter {
             notifyDataSetChanged();
         }
     }
+
+    public List<T> getData() {
+        return mData;
+    }
 }

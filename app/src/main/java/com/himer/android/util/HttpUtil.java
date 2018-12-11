@@ -59,6 +59,7 @@ public class HttpUtil {
         if (mHttpClient == null) {
             return;
         }
+//        mHttpClient.setProxy("30.7.24.243", 8888);
         mHttpClient.setUserAgent(null);
         mHttpClient.addHeader("user_agent", getUserAgent());
         mHttpClient.addHeader("Accept", "*/*");

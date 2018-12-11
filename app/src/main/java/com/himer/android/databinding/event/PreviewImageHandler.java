@@ -2,6 +2,7 @@ package com.himer.android.databinding.event;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.himer.android.databinding.BindingListAdapter;
@@ -23,9 +24,17 @@ public class PreviewImageHandler implements
                             View view, Map<String, Object> param) {
 
         SearchSound sound = (SearchSound) param.get("sound");
+        String cover = sound.getCover_path();
+        if (TextUtils.isEmpty(cover)) {
+            return;
+        }
+        int index;
+        if ((index = cover.indexOf("!")) > 0) {
+            cover = cover.substring(0, index);
+        }
         try {
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(Uri.parse(sound.getCover_path()), "image/*");
+            intent.setDataAndType(Uri.parse(cover), "image/*");
             view.getContext().startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();

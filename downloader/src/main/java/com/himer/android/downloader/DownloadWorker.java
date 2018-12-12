@@ -25,7 +25,7 @@ import static com.himer.android.downloader.DownloadError.ERR_NET;
  * <p>
  * Created by chad on 2018/12/7.
  */
-public abstract class DownloadWorker implements Runnable {
+public class DownloadWorker implements Runnable {
 
     private static final String TEMP_SUBFIX = ".tmp";
 
@@ -61,10 +61,10 @@ public abstract class DownloadWorker implements Runnable {
 
         try {
 
-            handleDownloadStart();
+            handleTaskStart();
 
             if (isCancel()) {
-                handleCancel();
+                handleTaskCancel();
                 return;
             }
 
@@ -73,7 +73,7 @@ public abstract class DownloadWorker implements Runnable {
             }
 
             if (isDownloaded() && !isRedownload()) {
-                handleDownloadComplete();
+                handleTaskComplete();
                 return;
             }
 
@@ -82,7 +82,7 @@ public abstract class DownloadWorker implements Runnable {
             }
 
             if (isCancel()) {
-                handleCancel();
+                handleTaskCancel();
                 return;
             }
 
@@ -91,7 +91,7 @@ public abstract class DownloadWorker implements Runnable {
             }
 
             if (isCancel()) {
-                handleCancel();
+                handleTaskCancel();
                 return;
             }
 
@@ -99,7 +99,7 @@ public abstract class DownloadWorker implements Runnable {
                 return;
             }
 
-            handleDownloadComplete();
+            handleTaskComplete();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -124,7 +124,7 @@ public abstract class DownloadWorker implements Runnable {
 
     protected boolean initTask() {
         if (!checkDownloadTask()) {
-            handleFaile(ERR_ILLEGALL_INFO);
+            handleTaskFaile(ERR_ILLEGALL_INFO);
             return false;
         }
 
@@ -136,7 +136,7 @@ public abstract class DownloadWorker implements Runnable {
         mDownloadDir = new File(dir);
 
         if (!mDownloadDir.exists() && !mDownloadDir.mkdirs()) {
-            handleFaile(ERR_IO_MKDIR);
+            handleTaskFaile(ERR_IO_MKDIR);
             return false;
         }
 
@@ -148,7 +148,7 @@ public abstract class DownloadWorker implements Runnable {
     protected boolean beforeDownload() {
 
         if (mDownloadFile.exists() && !mDownloadFile.delete()) {
-            handleFaile(ERR_IO_DELETE_FILE);
+            handleTaskFaile(ERR_IO_DELETE_FILE);
             return false;
         }
 
@@ -160,12 +160,12 @@ public abstract class DownloadWorker implements Runnable {
         else {
             try {
                 if (!mTempFile.createNewFile()) {
-                    handleFaile(ERR_IO_CREATE_FILE);
+                    handleTaskFaile(ERR_IO_CREATE_FILE);
                     return false;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                handleFaile(ERR_IO_CREATE_FILE);
+                handleTaskFaile(ERR_IO_CREATE_FILE);
                 return false;
             }
         }
@@ -191,12 +191,13 @@ public abstract class DownloadWorker implements Runnable {
         }
 
         if (isCancel()) {
-            handleCancel();
+            call.cancel();
+            handleTaskCancel();
             return false;
         }
 
         if (response == null || response.body() == null) {
-            handleFaile(ERR_NET);
+            handleTaskFaile(ERR_NET);
             return false;
         }
 
@@ -212,7 +213,7 @@ public abstract class DownloadWorker implements Runnable {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            handleFaile(ERR_IO_CREATE_FILE);
+            handleTaskFaile(ERR_IO_CREATE_FILE);
             return false;
         }
 
@@ -226,16 +227,17 @@ public abstract class DownloadWorker implements Runnable {
                 writeFile.write(buff, 0, read);
                 mCurrentPos += read;
 
-                handleUpdatePercent(mCurrentPos, mFileLength);
+                handleTaskProgress(mCurrentPos, mFileLength);
 
                 if (isCancel()) {
-                    handleCancel();
+                    call.cancel();
+                    handleTaskCancel();
                     return false;
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
-            handleFaile(ERR_NET);
+            handleTaskFaile(ERR_NET);
             return false;
         }
         finally {
@@ -256,7 +258,7 @@ public abstract class DownloadWorker implements Runnable {
         }
 
         if (mCurrentPos != mFileLength) {
-            handleFaile(ERR_NET);
+            handleTaskFaile(ERR_NET);
             return false;
         }
 
@@ -266,7 +268,7 @@ public abstract class DownloadWorker implements Runnable {
     protected boolean afterDownload() {
 
         if (!mTempFile.renameTo(mDownloadFile)) {
-            handleFaile(ERR_IO_RENAME_FILE);
+            handleTaskFaile(ERR_IO_RENAME_FILE);
             return false;
         }
 
@@ -294,36 +296,36 @@ public abstract class DownloadWorker implements Runnable {
         return false;
     }
 
-    private void handleDownloadStart() {
+    private void handleTaskStart() {
         mDownloadListener.onDownloadStart(mDownloadTask);
     }
 
-    private void handleCancel() {
+    private void handleTaskCancel() {
         mDownloadListener.onTaskCancel(mDownloadTask);
     }
 
-    private void handleFaile(DownloadError error) {
+    private void handleTaskFaile(DownloadError error) {
         mDownloadListener.onDownloadFail(mDownloadTask, error.getErrorCode(), error.getErrorMessage());
     }
 
     private boolean handleResponseCode(int responseCode) {
         if (mStartPos > 0) {
             if (206 != responseCode) {
-                handleFaile(ERR_NET);
+                handleTaskFaile(ERR_NET);
                 return false;
             }
             return true;
         }
 
         if (200 != responseCode) {
-            handleFaile(ERR_NET);
+            handleTaskFaile(ERR_NET);
             return false;
         }
 
         return true;
     }
 
-    private void handleUpdatePercent(long current, long total) {
+    private void handleTaskProgress(long current, long total) {
         float percent;
         if (current >= total) {
             percent = 1;
@@ -334,7 +336,7 @@ public abstract class DownloadWorker implements Runnable {
         mDownloadListener.onProgressUpdate(mDownloadTask, percent);
     }
 
-    private void handleDownloadComplete() {
+    private void handleTaskComplete() {
         mDownloadListener.onDownloadSucess(mDownloadTask);
     }
 }

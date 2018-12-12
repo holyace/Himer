@@ -81,12 +81,7 @@ public class TestActivity extends Activity {
             }
         };
 
-        final DownloadWorker worker = new DownloadWorker(listener) {
-            @Override
-            protected String getDefaultPath() {
-                return null;
-            }
-        };
+        final DownloadWorker worker = new DownloadWorker(listener);
 
         IDownloadTask task = new IDownloadTask() {
             @Override

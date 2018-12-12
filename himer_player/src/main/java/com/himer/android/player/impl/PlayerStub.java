@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.RemoteException;
 
+import com.himer.android.common.util.HLog;
 import com.himer.android.player.Audio;
 import com.himer.android.player.Player;
 import com.himer.android.player.PlayerListener;
@@ -22,6 +23,8 @@ import java.util.List;
 public class PlayerStub extends Player.Stub implements
         MediaPlayer.OnBufferingUpdateListener,
         MediaPlayer.OnSeekCompleteListener {
+
+    private static final String TAG = PlayerStub.class.getSimpleName();
 
     private static final int UPDATE_DURATION = 1 * 1000; //1s
 
@@ -199,6 +202,7 @@ public class PlayerStub extends Player.Stub implements
     @Override
     public void registePlayerListener(PlayerListener listener) throws RemoteException {
         mPlayerListener = listener;
+        HLog.e(TAG, "registePlayerListener ", listener);
     }
 
     private void handlePlayStart() {
@@ -251,6 +255,11 @@ public class PlayerStub extends Player.Stub implements
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void setVolume(float left, float right) {
+        mPlayer.setVolume(left, right);
     }
 
     public PlayerState getPlayerState() {

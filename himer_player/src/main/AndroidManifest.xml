@@ -4,7 +4,9 @@
     <application>
         <service
             android:name=".service.PlayerService"
-            android:exported="true">
+            android:exported="true"
+            android:process=":player"
+            >
 
             <intent-filter>
                 <action android:name="com.himer.android.action.PlayerService" />

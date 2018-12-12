@@ -7,6 +7,7 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.RemoteException;
 
+import com.himer.android.common.util.HLog;
 import com.himer.android.player.constants.PlayerConstants;
 import com.himer.android.player.impl.NotificationHandler;
 import com.himer.android.player.util.CollectionUtil;
@@ -20,6 +21,8 @@ import java.util.List;
  * Created by chad on 2018/11/30.
  */
 public class PlayerManager implements PlayerConstants, IPlayer {
+
+    private static final String TAG = PlayerManager.class.getSimpleName();
 
     private static PlayerManager sInstance;
 
@@ -36,7 +39,7 @@ public class PlayerManager implements PlayerConstants, IPlayer {
 
     private NotificationHandler mNotificationHandler;
 
-    private PlayerListener mPlayerListener = new PlayerListener() {
+    private PlayerListener.Stub mPlayerListener = new PlayerListener.Stub() {
 
         @Override
         public void onPlay() {
@@ -93,11 +96,6 @@ public class PlayerManager implements PlayerConstants, IPlayer {
                 l.onPlayChange(index);
             }
         }
-
-        @Override
-        public IBinder asBinder() {
-            return null;
-        }
     };
 
     private IBinder.DeathRecipient mDeathRecipient = new IBinder.DeathRecipient() {
@@ -123,6 +121,7 @@ public class PlayerManager implements PlayerConstants, IPlayer {
                 service.linkToDeath(mDeathRecipient, 0);
                 mPlayer = Player.Stub.asInterface(service);
                 mPlayer.registePlayerListener(mPlayerListener);
+                HLog.e(TAG, "onServiceConnected ", mPlayerListener);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

@@ -28,6 +28,8 @@ interface Player {
 
     int getDuration();
 
+    void setVolume(float left, float right);
+
     Audio getCurrentAudio();
 
     void registePlayerListener(PlayerListener listener);

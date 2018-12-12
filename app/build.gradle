@@ -35,5 +35,6 @@ dependencies {
 
     compile(project(':common'))
     compile(project(':himer_player'))
+    compile(project(':downloader'))
 
 }

@@ -6,12 +6,14 @@ import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+import com.himer.android.player.AudioFocusListener;
 import com.himer.android.player.R;
 import com.himer.android.player.constants.PlayerConstants;
 import com.himer.android.player.impl.PlayerStub;
@@ -28,6 +30,8 @@ public class PlayerService extends Service implements PlayerConstants {
     private PlayerStub mPlayer;
     private Context mContext;
 
+    private AudioFocusListener mAudioFocusListener;
+
     private boolean mForeground;
 
     @Override
@@ -41,6 +45,9 @@ public class PlayerService extends Service implements PlayerConstants {
         super.onCreate();
         mContext = this;
         mPlayer = new PlayerStub();
+        mAudioFocusListener = new AudioFocusListener(mPlayer);
+        AudioManager audioManager = (AudioManager) mContext.
+                getSystemService(Context.AUDIO_SERVICE);
         Log.e(TAG, "onCreate ");
     }
 

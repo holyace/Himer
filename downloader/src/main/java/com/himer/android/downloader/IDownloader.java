@@ -1,5 +1,7 @@
 package com.himer.android.downloader;
 
+import java.util.List;
+
 /**
  * No comment for you. yeah, come on, bite me~
  * <p>
@@ -9,6 +11,8 @@ public interface IDownloader {
 
     void download(IDownloadTask task);
 
+    void download(List<IDownloadTask> list);
+
     void pauseTask(IDownloadTask task);
 
     void restartTask(IDownloadTask task);
@@ -17,9 +21,13 @@ public interface IDownloader {
 
     void restartAll();
 
-    void delete(IDownloadTask task);
+    void deleteTask(IDownloadTask task);
 
-    void deleteAll();
+    void deleteAllTask();
+
+    List<IDownloadTask> getDownloadedTask();
+
+    List<IDownloadTask> getTaskQueue();
 
     void registeDownloadListener(IDownloadListener listener);
 

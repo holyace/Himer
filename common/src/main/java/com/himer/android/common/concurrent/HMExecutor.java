@@ -44,7 +44,8 @@ public class HMExecutor {
 
     static {
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
-                CORE_POOL_SIZE, MAXIMUM_POOL_SIZE, KEEP_ALIVE_SECONDS, TimeUnit.SECONDS,
+                CORE_POOL_SIZE, MAXIMUM_POOL_SIZE,
+                KEEP_ALIVE_SECONDS, TimeUnit.SECONDS,
                 sPoolWorkQueue, sThreadFactory);
         threadPoolExecutor.allowCoreThreadTimeOut(true);
         sDefExecutor = threadPoolExecutor;

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.himer.android.common.concurrent.HMExecutor;
 import com.himer.android.common.concurrent.SafeJob;
+import com.himer.android.downloader.DownloadState;
 import com.himer.android.downloader.DownloadWorker;
 import com.himer.android.downloader.IDownloadListener;
 import com.himer.android.downloader.IDownloadTask;
@@ -101,12 +102,23 @@ public class TestActivity extends Activity {
 
             @Override
             public String getSavePath() {
-                return Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_DOWNLOADS).
-                        getAbsolutePath();
+                return null;
+            }
+
+            @Override
+            public DownloadState getDownloadState() {
+                return null;
+            }
+
+            @Override
+            public void setDownloadState(DownloadState state) {
+
             }
         };
 
+        worker.setDefaultPath(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOWNLOADS).
+                getAbsolutePath());
         worker.setDownloadTask(task);
 
         setContentView(root);

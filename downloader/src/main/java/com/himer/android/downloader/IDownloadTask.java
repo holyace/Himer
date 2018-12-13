@@ -14,4 +14,8 @@ public interface IDownloadTask {
     String getFileName();
 
     String getSavePath();
+
+    DownloadState getDownloadState();
+
+    void setDownloadState(DownloadState state);
 }

@@ -32,6 +32,7 @@ public class DownloadWorker implements Runnable {
     protected IDownloadListener mDownloadListener;
     protected IDownloadTask mDownloadTask;
 
+    private volatile boolean mRunning;
     private volatile boolean mCancel;
 
     private File mDownloadDir;
@@ -60,6 +61,7 @@ public class DownloadWorker implements Runnable {
     public void run() {
 
         try {
+            mRunning = true;
 
             handleTaskStart();
 
@@ -106,6 +108,7 @@ public class DownloadWorker implements Runnable {
         }
         finally {
             destoryTask();
+            mRunning = false;
         }
     }
 
@@ -120,6 +123,10 @@ public class DownloadWorker implements Runnable {
 
     public void cancel() {
         mCancel = true;
+    }
+
+    public boolean isRunning() {
+        return mRunning;
     }
 
     protected boolean initTask() {
@@ -282,6 +289,9 @@ public class DownloadWorker implements Runnable {
         mDownloadDir = null;
         mTempFile = null;
         mDownloadFile = null;
+
+        mStartPos = 0;
+        mCurrentPos = 0;
     }
 
     protected String getDefaultPath() {

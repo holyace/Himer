@@ -13,6 +13,8 @@ package com.himer.android.download;
 
 import android.util.Log;
 
+import com.himer.android.common.util.HLog;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,6 +34,8 @@ import java.util.concurrent.TimeUnit;
  * @since Ver 1.1
  */
 public class DownloadExcutor {
+
+    private static final String TAG = DownloadExcutor.class.getSimpleName();
 
     private static DownloadExcutor sExcutor;
     private static byte[] sSyncLock = new byte[0];
@@ -74,7 +78,7 @@ public class DownloadExcutor {
                         return;
                     }
                     DownloadTask task = (DownloadTask) r;
-                    Log.e("", "Xm reject task " + task.title);
+                    HLog.e(TAG, "Xm reject task " + task.title);
                     task.status = DownloadTask.PAUSED;
                     mPausedTask.add(task);
                     DownloadManager.getInstance().

@@ -163,10 +163,7 @@ public class SearchFragment extends Fragment {
     }
 
     private boolean moreDataAvailable() {
-        if (mPageId * mPageSize < mTotalCount) {
-            return true;
-        }
-        return false;
+        return mPageId * mPageSize < mTotalCount;
     }
 
     private void searchSound(final String keyWord) {
@@ -321,10 +318,10 @@ public class SearchFragment extends Fragment {
             if (convertView == null) {
                 holder = new ViewHolder();
                 convertView = View.inflate(mContext, R.layout.search_result_item, null);
-                holder.icon = (HMImageView) convertView.findViewById(R.id.sound_icon);
-                holder.title = (TextView) convertView.findViewById(R.id.sound_title);
-                holder.progressBar = (ProgressBar) convertView.findViewById(R.id.download_progress);
-                holder.download = (TextView) convertView.findViewById(R.id.sound_download);
+                holder.icon = convertView.findViewById(R.id.sound_icon);
+                holder.title = convertView.findViewById(R.id.sound_title);
+                holder.progressBar = convertView.findViewById(R.id.download_progress);
+                holder.download = convertView.findViewById(R.id.sound_download);
                 convertView.setTag(holder);
                 holder.download.setOnClickListener(new OnClickListener() {
 

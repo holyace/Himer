@@ -91,8 +91,8 @@ public class DownloadFragment extends Fragment {
                 if (task == null) {
                     return;
                 }
-                Log.e("", "Xm onTaskUpdate " + task.title + ", "
-                        + task.status + ", " + task.percent);
+                HLog.e(TAG, "Xm onTaskUpdate ",
+                        task.title, task.status, task.percent);
 
                 if (!mDownloadTask.contains(task)) {
                     return;
@@ -132,7 +132,7 @@ public class DownloadFragment extends Fragment {
 
             @Override
             public void onTaskCancel(DownloadTask task) {
-                Log.e("", "Xm onTaskCancel ");
+                HLog.e(TAG, "Xm onTaskCancel ");
                 if (!mDownloadTask.contains(task)) {
                     return;
                 }
@@ -142,7 +142,7 @@ public class DownloadFragment extends Fragment {
 
             @Override
             public void onNewTask(DownloadTask task) {
-                Log.e("", "Xm onNewTask ");
+                HLog.e(TAG, "Xm onNewTask ");
                 if (mDownloadTask.contains(task)) {
                     return;
                 }
@@ -152,7 +152,7 @@ public class DownloadFragment extends Fragment {
 
             @Override
             public void onAllTaskPaused() {
-                Log.e("", "Xm onAllTaskPaused ");
+                HLog.e(TAG, "Xm onAllTaskPaused ");
                 for (DownloadTask t : mDownloadTask) {
                     mAdapter.updateItem(t);
                 }
@@ -160,7 +160,7 @@ public class DownloadFragment extends Fragment {
 
             @Override
             public void onAllTaskResumed() {
-                Log.e("", "Xm onAllTaskResumed ");
+                HLog.e(TAG, "Xm onAllTaskResumed ");
                 for (DownloadTask t : mDownloadTask) {
                     mAdapter.updateItem(t);
                 }
@@ -168,7 +168,7 @@ public class DownloadFragment extends Fragment {
 
             @Override
             public void onAllTaskCanceled() {
-                Log.e("", "Xm onAllTaskCanceled ");
+                HLog.e(TAG, "Xm onAllTaskCanceled ");
                 mDownloadTask.clear();
                 mAdapter.notifyDataSetChanged();
             }
@@ -177,13 +177,13 @@ public class DownloadFragment extends Fragment {
     }
 
     private void initData() {
-        Log.e("", "Xm initData");
+        HLog.e(TAG, "Xm initData");
         mDownloadTask.addAll(mDownloadManager.getAllTask());
         mAdapter.notifyDataSetChanged();
     }
 
     private void initUI() {
-        mListView = (ListView) mContent.findViewById(R.id.task_list);
+        mListView = mContent.findViewById(R.id.task_list);
         mListView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
@@ -314,10 +314,10 @@ public class DownloadFragment extends Fragment {
             if (convertView == null) {
                 holder = new ViewHolder();
                 convertView = View.inflate(mContext, R.layout.search_result_item, null);
-                holder.icon = (ImageView) convertView.findViewById(R.id.sound_icon);
-                holder.title = (TextView) convertView.findViewById(R.id.sound_title);
-                holder.progressBar = (ProgressBar) convertView.findViewById(R.id.download_progress);
-                holder.download = (TextView) convertView.findViewById(R.id.sound_download);
+                holder.icon = convertView.findViewById(R.id.sound_icon);
+                holder.title = convertView.findViewById(R.id.sound_title);
+                holder.progressBar = convertView.findViewById(R.id.download_progress);
+                holder.download = convertView.findViewById(R.id.sound_download);
                 holder.download.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 holder.progressBar.setVisibility(View.VISIBLE);
                 convertView.setTag(holder);

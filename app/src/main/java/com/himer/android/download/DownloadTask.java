@@ -15,6 +15,7 @@ package com.himer.android.download;
 
 import android.util.Log;
 
+import com.himer.android.common.util.HLog;
 import com.himer.android.modle.SearchSound;
 import com.himer.android.modle.SoundInfo;
 import com.himer.android.util.FileUtil;
@@ -36,6 +37,9 @@ import java.net.URL;
  * @since Ver 1.1
  */
 public class DownloadTask implements Runnable {
+
+    private static final String TAG = DownloadTask.class.getSimpleName();
+
     public static final int FAILED = -1;
     public static final int IDLE = 0;
     public static final int WAITING = 1;
@@ -92,7 +96,7 @@ public class DownloadTask implements Runnable {
     private void handleComplete(String path) {
         status = COMPLETED;
         percent = 100;
-        Log.e("", "Xm complete task " + title);
+        HLog.e(TAG, "Xm complete task ", title);
         mRealPath = path;
         mDownloadManager.updateTask(DownloadManager.MSG_TASK_COMPLETE, this);
     }
@@ -101,7 +105,7 @@ public class DownloadTask implements Runnable {
     public void run() {
         isRunning = true;
         status = RUNNING;
-        Log.e("", "Xm start tp downmloa " + title);
+        HLog.e(TAG, "Xm start tp downmloa ", title);
         mDownloadManager.setCurrentTask(this);
         mDownloadManager.updateTask(DownloadManager.MSG_TASK_START, this);
         if (!FileUtil.isFileSystemCanUse()) {
@@ -167,7 +171,7 @@ public class DownloadTask implements Runnable {
                     }
                     boolean ret = soundFile.renameTo(completeF);
                     if (!ret) {
-                        Log.e("", "Xm rename faile " + title);
+                        HLog.e(TAG, "Xm rename faile ", title);
                         mDownloadManager.updateTask(DownloadManager.MSG_TASK_FAILE, this);
                     } else {
                         handleComplete(completeF.getCanonicalPath());
@@ -207,7 +211,7 @@ public class DownloadTask implements Runnable {
 
     public void stopExcute() {
         isRunning = false;
-        Log.e("", "Xm pause download " + title);
+        HLog.e(TAG, "Xm pause download ", title);
     }
 
     @Override
@@ -227,9 +231,7 @@ public class DownloadTask implements Runnable {
         if (getClass() != obj.getClass())
             return false;
         DownloadTask other = (DownloadTask) obj;
-        if (id != other.id)
-            return false;
-        return true;
+        return id == other.id;
     }
 
 

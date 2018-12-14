@@ -3,6 +3,7 @@ package com.himer.android.player;
 
 import com.himer.android.player.Audio;
 import com.himer.android.player.PlayerListener;
+import com.himer.android.player.ErrorHandler;
 
 // Declare any non-default types here with import statements
 
@@ -33,4 +34,6 @@ interface Player {
     Audio getCurrentAudio();
 
     void registePlayerListener(PlayerListener listener);
+
+    void registeErrorHandler(ErrorHandler errorHandler);
 }

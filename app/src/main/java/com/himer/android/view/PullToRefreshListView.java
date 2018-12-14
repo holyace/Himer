@@ -93,14 +93,14 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 
         headView = (LinearLayout) inflater
                 .inflate(R.layout.listview_head, null);
-        arrowImageView = (ImageView) headView
+        arrowImageView = headView
                 .findViewById(R.id.head_arrowImageView);
         arrowImageView.setMinimumWidth(70);
         arrowImageView.setMinimumHeight(50);
-        progressBar = (ProgressBar) headView
+        progressBar = headView
                 .findViewById(R.id.head_progressBar);
-        tipsTextview = (TextView) headView.findViewById(R.id.head_tipsTextView);
-        lastUpdatedTextView = (TextView) headView
+        tipsTextview = headView.findViewById(R.id.head_tipsTextView);
+        lastUpdatedTextView = headView
                 .findViewById(R.id.head_lastUpdatedTextView);
 
         // 计算headView的宽高,便于后面getMeasuredHeight,getMeasuredWidth
@@ -430,7 +430,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
     }
 
     public interface OnRefreshListener {
-        public void onRefresh();
+        void onRefresh();
     }
 
     public void onRefreshComplete() {
@@ -495,11 +495,11 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
     }
 
     public interface OnScrollListner {
-        public void onMyScrollStateChanged(AbsListView view, int scrollState);
+        void onMyScrollStateChanged(AbsListView view, int scrollState);
     }
 
     public interface OnStopScrollListner {
-        public void onStopScroll(AbsListView view);
+        void onStopScroll(AbsListView view);
     }
 
     public void setOnStopScrollListener(OnStopScrollListner ossl) {

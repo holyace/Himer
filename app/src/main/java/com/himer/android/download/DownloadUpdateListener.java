@@ -25,17 +25,17 @@ package com.himer.android.download;
  */
 public interface DownloadUpdateListener {
     //	public void onTaskStart(final DownloadTask task);
-    public void onNewTask(final DownloadTask task);
+    void onNewTask(final DownloadTask task);
 
     //	public void onTaskPause(final DownloadTask task);
-    public void onTaskCancel(final DownloadTask task);
+    void onTaskCancel(final DownloadTask task);
 
-    public void onTaskUpdate(final DownloadTask task);
+    void onTaskUpdate(final DownloadTask task);
 
-    public void onAllTaskPaused();
+    void onAllTaskPaused();
 
-    public void onAllTaskResumed();
+    void onAllTaskResumed();
 
-    public void onAllTaskCanceled();
+    void onAllTaskCanceled();
 }
 

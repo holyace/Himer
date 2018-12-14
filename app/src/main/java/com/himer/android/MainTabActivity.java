@@ -17,12 +17,16 @@ import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.himer.android.common.util.HLog;
 import com.himer.android.download.DownloadManager;
 import com.himer.android.fragment.DownloadFragment;
 import com.himer.android.fragment.LocalFileFragment;
 import com.himer.android.fragment.SearchFragment;
 
 public class MainTabActivity extends AppCompatActivity {
+
+    private static final String TAG = MainTabActivity.class.getSimpleName();
+
     private static final int REQUEST_CODE = 0x11;
 
     private static final String[] permissions = {"android.permission.WRITE_EXTERNAL_STORAGE"};
@@ -148,7 +152,7 @@ public class MainTabActivity extends AppCompatActivity {
 
     @Override
     public void finish() {
-        Log.e("", "Xm act finish");
+        HLog.e(TAG, "Xm act finish");
         DownloadManager.getInstance().exit();
         mDownloadFragment = null;
         mSearchFragment = null;
@@ -159,7 +163,7 @@ public class MainTabActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        Log.e("", "Xm act destroy");
+        HLog.e(TAG, "Xm act destroy");
         super.onDestroy();
 
     }

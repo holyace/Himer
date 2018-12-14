@@ -15,6 +15,7 @@ package com.himer.android.util;
 
 import android.util.Log;
 
+import com.himer.android.common.util.HLog;
 import com.himer.android.net.HttpCallback;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
@@ -29,6 +30,8 @@ import com.loopj.android.http.RequestParams;
  * @since Ver 1.1
  */
 public class HttpUtil {
+
+    private static final String TAG = HttpUtil.class.getSimpleName();
 
     private static HttpUtil sUtil;
     private static byte[] sSyncLock = new byte[0];
@@ -75,12 +78,12 @@ public class HttpUtil {
     }
 
     public void httpGet(String url, RequestParams param, HttpCallback callback) {
-        Log.e("", "Xm request get " + url);
+        HLog.e(TAG, "Xm request get " + url);
         mHttpClient.get(url, param, callback);
     }
 
     public void httpPost(String url, RequestParams params, HttpCallback callback) {
-        Log.e("", "Xm request post " + url);
+        HLog.e(TAG, "Xm request post " + url);
         mHttpClient.post(url, params, callback);
     }
 }

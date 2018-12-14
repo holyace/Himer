@@ -7,6 +7,7 @@ import android.os.RemoteException;
 
 import com.himer.android.common.util.HLog;
 import com.himer.android.player.Audio;
+import com.himer.android.player.ErrorHandler;
 import com.himer.android.player.Player;
 import com.himer.android.player.PlayerListener;
 import com.himer.android.player.constants.PlayerState;
@@ -22,7 +23,9 @@ import java.util.List;
  */
 public class PlayerStub extends Player.Stub implements
         MediaPlayer.OnBufferingUpdateListener,
-        MediaPlayer.OnSeekCompleteListener {
+        MediaPlayer.OnSeekCompleteListener,
+        MediaPlayer.OnCompletionListener,
+        MediaPlayer.OnErrorListener {
 
     private static final String TAG = PlayerStub.class.getSimpleName();
 
@@ -36,6 +39,7 @@ public class PlayerStub extends Player.Stub implements
     private Handler mHandler;
 
     private PlayerListener mPlayerListener;
+    private ErrorHandler mErrorHandle;
 
     private Runnable mUpdatePositionTask = new Runnable() {
         @Override
@@ -63,6 +67,7 @@ public class PlayerStub extends Player.Stub implements
         mHandler = new Handler(Looper.getMainLooper());
         mPlayer.setOnBufferingUpdateListener(this);
         mPlayer.setOnSeekCompleteListener(this);
+        mPlayer.setOnCompletionListener(this);
     }
 
     @Override
@@ -91,7 +96,7 @@ public class PlayerStub extends Player.Stub implements
     }
 
     @Override
-    public void setAudioList(List<Audio> audioList) throws RemoteException {
+    public void setAudioList(List<Audio> audioList) {
         mAudioList = audioList;
         mCurrentAudio = null;
         mCurrentIndex = -1;
@@ -200,9 +205,14 @@ public class PlayerStub extends Player.Stub implements
     }
 
     @Override
-    public void registePlayerListener(PlayerListener listener) throws RemoteException {
+    public void registePlayerListener(PlayerListener listener) {
         mPlayerListener = listener;
         HLog.e(TAG, "registePlayerListener ", listener);
+    }
+
+    @Override
+    public void registeErrorHandler(ErrorHandler errorHandler) {
+        mErrorHandle = errorHandler;
     }
 
     private void handlePlayStart() {
@@ -246,6 +256,16 @@ public class PlayerStub extends Player.Stub implements
         }
     }
 
+    private void handlePlayComplete() {
+        if (mPlayerListener != null) {
+            try {
+                mPlayerListener.onComplete();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @Override
     public void onBufferingUpdate(MediaPlayer mp, int percent) {
         if (mPlayerListener != null) {
@@ -281,5 +301,25 @@ public class PlayerStub extends Player.Stub implements
 
     private void stopUpdatePosition() {
         mHandler.removeCallbacks(mUpdatePositionTask);
+    }
+
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        handlePlayComplete();
+        //play mode
+        next();
+    }
+
+    @Override
+    public boolean onError(MediaPlayer mp, int what, int extra) {
+        boolean handle = false;
+        if (mErrorHandle != null) {
+            try {
+                handle = mErrorHandle.onError(what, extra);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        return handle;
     }
 }

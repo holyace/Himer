@@ -39,6 +39,11 @@ public class PlayerManager implements PlayerConstants, IPlayer {
 
     private NotificationHandler mNotificationHandler;
 
+    private List<Runnable> mPendingAction = new ArrayList<>();
+
+    private boolean mRemoteDead;
+    private boolean mConnecting = true;
+
     private PlayerListener.Stub mPlayerListener = new PlayerListener.Stub() {
 
         @Override
@@ -101,6 +106,9 @@ public class PlayerManager implements PlayerConstants, IPlayer {
     private IBinder.DeathRecipient mDeathRecipient = new IBinder.DeathRecipient() {
         @Override
         public void binderDied() {
+
+            mRemoteDead = true;
+
             if (mPlayerStubBinder == null) {
                 return;
             }
@@ -116,6 +124,7 @@ public class PlayerManager implements PlayerConstants, IPlayer {
     private ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
+            mConnecting = false;
             mPlayerStubBinder = service;
             try {
                 service.linkToDeath(mDeathRecipient, 0);
@@ -125,6 +134,10 @@ public class PlayerManager implements PlayerConstants, IPlayer {
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
+
+            mRemoteDead = false;
+
+            executePendingAction();
         }
 
         @Override
@@ -188,11 +201,17 @@ public class PlayerManager implements PlayerConstants, IPlayer {
 
     @Override
     public void play() {
-
+        if (mPlayer != null) {
+            try {
+                mPlayer.play();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
-    public void playIndex(int index) {
+    public void playIndex(final int index) {
         if (mPlayer != null) {
             try {
                 mPlayer.playIndex(index);
@@ -200,11 +219,22 @@ public class PlayerManager implements PlayerConstants, IPlayer {
                 e.printStackTrace();
             }
         }
+        else if (mConnecting) {
+            addPendingAction(new Runnable() {
+                @Override
+                public void run() {
+                    if (mPlayer == null) {
+                        return;
+                    }
+                    playIndex(index);
+                }
+            });
+        }
     }
 
 
     @Override
-    public void setAudioList(List<Audio> audioList) {
+    public void setAudioList(final List<Audio> audioList) {
         mPlayList = audioList;
         if (mPlayer != null) {
             try {
@@ -212,6 +242,17 @@ public class PlayerManager implements PlayerConstants, IPlayer {
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
+        }
+        else if (mConnecting) {
+            addPendingAction(new Runnable() {
+                @Override
+                public void run() {
+                    if (mPlayer == null) {
+                        return;
+                    }
+                    setAudioList(audioList);
+                }
+            });
         }
     }
 
@@ -257,11 +298,6 @@ public class PlayerManager implements PlayerConstants, IPlayer {
                 e.printStackTrace();
             }
         }
-    }
-
-    @Override
-    public void onPlayChange(int index) {
-
     }
 
     @Override
@@ -335,5 +371,23 @@ public class PlayerManager implements PlayerConstants, IPlayer {
             return mPlayList.get(index);
         }
         return null;
+    }
+
+    private void addPendingAction(Runnable runnable) {
+        if (!mConnecting || mRemoteDead) {
+            return;
+        }
+        synchronized (mPendingAction) {
+            mPendingAction.add(runnable);
+        }
+    }
+
+    private void executePendingAction() {
+        synchronized (mPendingAction) {
+            while (!mPendingAction.isEmpty()) {
+                Runnable action = mPendingAction.remove(0);
+                action.run();
+            }
+        }
     }
 }

@@ -13,6 +13,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+import com.himer.android.common.util.HLog;
 import com.himer.android.player.AudioFocusListener;
 import com.himer.android.player.R;
 import com.himer.android.player.constants.PlayerConstants;
@@ -36,7 +37,7 @@ public class PlayerService extends Service implements PlayerConstants {
 
     @Override
     public IBinder onBind(Intent intent) {
-        Log.e(TAG, "onBind ");
+        HLog.e(TAG, "onBind ");
         return mPlayer;
     }
 
@@ -48,7 +49,7 @@ public class PlayerService extends Service implements PlayerConstants {
         mAudioFocusListener = new AudioFocusListener(mPlayer);
         AudioManager audioManager = (AudioManager) mContext.
                 getSystemService(Context.AUDIO_SERVICE);
-        Log.e(TAG, "onCreate ");
+        HLog.e(TAG, "onCreate ");
     }
 
     @Override
@@ -57,8 +58,8 @@ public class PlayerService extends Service implements PlayerConstants {
             startForeground(PlayerConstants.NOTIFCATION_ID, getNotification());
             mForeground = true;
         }
-        Log.e(TAG, "onStartCommand ");
         String action = intent.getAction();
+        HLog.e(TAG, "onStartCommand", action);
         if (PlayerConstants.ACTION_PLAY_OR_PAUSE.equals(action)) {
             handlePlayOrPause();
         } else if (PlayerConstants.ACTION_NEXT.equals(action)) {
@@ -76,7 +77,7 @@ public class PlayerService extends Service implements PlayerConstants {
             mPlayer.stop();
         }
         stopForeground(true);
-        Log.e(TAG, "onDestroy ");
+        HLog.e(TAG, "onDestroy ");
     }
 
     protected boolean enableForeground() {

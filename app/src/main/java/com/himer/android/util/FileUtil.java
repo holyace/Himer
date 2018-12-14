@@ -29,12 +29,8 @@ import java.io.File;
 public class FileUtil {
 
     public static boolean isFileSystemCanUse() {
-        if (Environment.getExternalStorageState().
-                equals(Environment.MEDIA_MOUNTED)) {
-            return true;
-        } else {
-            return false;
-        }
+        return Environment.getExternalStorageState().
+                equals(Environment.MEDIA_MOUNTED);
     }
 
     public static String getPrename(File file) {
@@ -94,10 +90,7 @@ public class FileUtil {
         if (!dir.exists()) {
             return dir.mkdirs();
         }
-        if (dir.exists() && dir.isFile()) {
-            return false;
-        }
-        return true;
+        return !dir.exists() || !dir.isFile();
     }
 }
 

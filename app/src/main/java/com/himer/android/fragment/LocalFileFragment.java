@@ -126,7 +126,7 @@ public class LocalFileFragment extends Fragment {
     }
 
     private void initData() {
-        Log.e(TAG, "Xm initData");
+        HLog.e(TAG, "Xm initData");
         HMExecutor.runNow(new SafeJob() {
             @Override
             public void safeRun() {
@@ -150,7 +150,7 @@ public class LocalFileFragment extends Fragment {
     }
 
     private void initUI() {
-        mListView = (ListView) mContent.findViewById(R.id.task_list);
+        mListView = mContent.findViewById(R.id.task_list);
         mListView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
@@ -257,10 +257,10 @@ public class LocalFileFragment extends Fragment {
             if (convertView == null) {
                 holder = new ViewHolder();
                 convertView = View.inflate(mContext, R.layout.search_result_item, null);
-                holder.icon = (ImageView) convertView.findViewById(R.id.sound_icon);
-                holder.title = (TextView) convertView.findViewById(R.id.sound_title);
-                holder.progressBar = (ProgressBar) convertView.findViewById(R.id.download_progress);
-                holder.download = (TextView) convertView.findViewById(R.id.sound_download);
+                holder.icon = convertView.findViewById(R.id.sound_icon);
+                holder.title = convertView.findViewById(R.id.sound_title);
+                holder.progressBar = convertView.findViewById(R.id.download_progress);
+                holder.download = convertView.findViewById(R.id.sound_download);
                 holder.download.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 holder.progressBar.setVisibility(View.VISIBLE);
                 convertView.setTag(holder);

@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.himer.android.common.util.HLog;
 import com.himer.android.init.AppInit;
+import com.himer.android.util.AppUtil;
 
 
 /**
@@ -19,7 +20,7 @@ public class HApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        HLog.w(TAG, "onCreate");
+        HLog.w(TAG, "onCreate", AppUtil.currentProcessName());
 
         AppInit.init(this);
     }

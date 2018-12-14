@@ -87,9 +87,7 @@ public class SoundInfo {
             return false;
         else if (o == this)
             return true;
-        else if (o instanceof SoundInfo && ((SoundInfo) o).trackId != 0 && ((SoundInfo) o).trackId == this.trackId) {
-            return true;
-        }
-        return false;
+        else
+            return o instanceof SoundInfo && ((SoundInfo) o).trackId != 0 && ((SoundInfo) o).trackId == this.trackId;
     }
 }
